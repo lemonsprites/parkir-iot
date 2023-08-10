@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "parkiran-booking": {
+      "hosting": {
+        "parkir-iot": [
+          "parkiran-booking"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "parkiran-booking"
+  }
+}

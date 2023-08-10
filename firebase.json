@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "parkir-iot",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}
