@@ -13,4 +13,8 @@ export class AdminHeaderComponent {
         console.log(this.sidebarToggle)
     }
 
+    newStatus(set : boolean) {
+        this.sidebarToggle = set;
+    }
+
 }

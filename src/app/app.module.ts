@@ -30,26 +30,31 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
         // Firebase Module
         provideFirebaseApp(() => initializeApp(environment.firebase)),
-        // provideFirebaseApp(() => initializeApp(environment.firebase2, 'dbYoseph')),
+        // provideFirebaseApp(() => initializeApp(environment.firebase2, 'sensor')),
         provideAuth(() => {
-            if (environment.production) {
-                return getAuth()
-            } else {
-                const auth = getAuth();
-                connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+            const auth = getAuth()
+            if (environment.useEmulators) {
+                connectAuthEmulator(auth, 'http://127.0.0.1:8080');
                 return auth;
             }
+            return auth;
         }),
         provideDatabase(() => {
-            if (environment.production) {
-                return getDatabase()
-            } else {
-                const database = getDatabase();
-                connectDatabaseEmulator(database, 'http://127.0.0.1', 9000)
+            const database = getDatabase();
+            if (environment.useEmulators) {
+                connectDatabaseEmulator(database, '127.0.0.1', 9000)
                 return database;
             }
+            return database;
         }),
-        // provideDatabase(() => getDatabase(getApp('dbYoseph'))),
+        // provideDatabase(() => {
+        //     const database2 = getDatabase(getApp('sensor'))
+        //     if (environment.useEmulators) {
+        //         connectDatabaseEmulator(database2, 'http://127.0.0.1', 9001)
+        //         return database2;
+        //     }
+        //     return database2;
+        // }),
         // provideFirestore(() => getFirestore()),
 
         // NgRX Module

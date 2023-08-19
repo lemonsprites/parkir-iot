@@ -4,35 +4,36 @@
 
         <li class="nav-heading">Daftar Menu</li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="dashboard" [routerLinkActive]="'collapsed'">
+            <a class="nav-link" routerLink="dashboard" [routerLinkActive]="'collapsed'" (click)="sidebarClose()">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" routerLink="manage-user" [routerLinkActive]="'collapsed'">
+            <a class="nav-link" routerLink="kelola-user" [routerLinkActive]="'collapsed'" (click)="sidebarClose()">
                 <i class="bi bi-people"></i>
                 <span>Kelola User</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" routerLink="transactions" [routerLinkActive]="'collapsed'">
+            <a class="nav-link" routerLink="riwayat-transaksi" [routerLinkActive]="'collapsed'"
+               (click)="sidebarClose()">
                 <i class="bi bi-clock-history"></i>
                 <span>Riwayat Transaksi</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" routerLink="billing" [routerLinkActive]="'collapsed'">
+            <a class="nav-link" routerLink="billing" [routerLinkActive]="'collapsed'" (click)="sidebarClose()">
                 <i class="bi bi-receipt-cutoff"></i>
                 <span>Billing Monitor</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" routerLink="contact" [routerLinkActive]="'collapsed'">
+            <a class="nav-link" routerLink="pelayanan" [routerLinkActive]="'collapsed'" (click)="sidebarClose()">
                 <i class="bi bi-chat-square-text"></i>
                 <span>Layanan Konsumen</span>
             </a>

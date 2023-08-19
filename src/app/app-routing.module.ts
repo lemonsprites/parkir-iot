@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './auth/components/register/register.component';
-import { AdminRoutingRoutes } from './admin/admin.routing';
 import { UserRoutes } from './user/user.routing';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthRoutes } from './auth/auth.routing';
+import { AdminRoutes } from './admin/admin.routing';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: '/login' },
+    // { path: '/**', component: NotFoundComponent}
+
 
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes), UserRoutes, AdminRoutingRoutes],
+    imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

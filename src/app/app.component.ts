@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FirebaseApps } from '@angular/fire/app';
-import { Database, DatabaseInstances, list, object, ref, set } from '@angular/fire/database';
+import { Database, DatabaseInstances, list, object, onValue, ref, set } from '@angular/fire/database';
 
 @Component({
     selector: 'app-root',
@@ -10,6 +10,6 @@ import { Database, DatabaseInstances, list, object, ref, set } from '@angular/fi
 export class AppComponent {
     title = 'parkir-iot';
 
-    constructor() { }
-
+    Area: any;
+    constructor(private db: Database) {}
 }
