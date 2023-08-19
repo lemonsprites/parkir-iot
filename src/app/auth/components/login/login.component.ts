@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
     loading: boolean = false;
 
 
-    constructor(private fb: FormBuilder, private store: Store) {
+    constructor(private fb: FormBuilder, private store: Store, private auth: Auth) {
         this.initLoginForm()
     }
 
@@ -34,5 +35,9 @@ export class LoginComponent {
 
             this.loginForm.markAsUntouched()
         }, 2000)
+    }
+
+    loginGoogle() {
+        signInWithPopup(this.auth, new GoogleAuthProvider());
     }
 }
