@@ -1,0 +1,40 @@
+<aside id="sidebar" class="sidebar" [ngClass]="toggleStatus ? 'toggle-sidebar' : ''">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-heading">Daftar Menu</li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/user/dashboard" [routerLinkActive]="'collapsed'" (click)="sidebarClose()">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+
+
+        <li class="nav-item">
+            <a class="nav-link " routerLink="/user/reservasi" [routerLinkActive]="'collapsed'" (click)="sidebarClose()">
+                <i class="bi bi-journal-check"></i>
+                <span>Reservasi</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " routerLink="/user/area-monitor" [routerLinkActive]="'collapsed'"
+               (click)="sidebarClose()">
+                <i class="bi bi-person-workspace"></i>nl
+                <span>Monitoring Area</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " routerLink="/user/layanan-dukungan" [routerLinkActive]="'collapsed'"
+               (click)="sidebarClose()">
+                <i class="bi bi-chat-square-text"></i>
+                <span>Layanan Dukungan</span>
+            </a>
+        </li>
+
+    </ul>
+
+</aside>

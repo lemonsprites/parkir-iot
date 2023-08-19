@@ -1,0 +1,52 @@
+<main id="main" class="main mx-auto" style='max-width: 1080px;'>
+
+    <div class="pagetitle pb-3">
+        <h1>Layanan Dukungan</h1>
+
+    </div>
+
+    <section class="dashboard">
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card info-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Ticket Picker</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let ticket of tickets"
+                                (click)="selectTicket(ticket)">
+                                {{ ticket.title }}
+                            </li>
+                        </ul>
+                        <button class="btn btn-primary mt-3" (click)="createNewTicket()">New Ticket</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card info-card">
+                    <div class="card-header text-white" style='background-color: #798eb3; min-height: 4em; display: flex;align-items: center;'>
+                        #{{ selectedTicket !== null ? selectedTicket!.title : 'Nama Tiket' }}
+                    </div>
+                    <div class="card-body chat-messages">
+                        <div class="message" *ngFor="let message of selectedTicket!.messages"
+                             [ngClass]="{'user-message': message.isCustomer, 'agent-message': !message.isCustomer}">
+                            {{ message.text }}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <textarea class="form-control" [(ngModel)]="newMessage"
+                                      placeholder="Type your message..."></textarea>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+</main>

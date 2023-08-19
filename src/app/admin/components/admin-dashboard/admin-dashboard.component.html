@@ -1,0 +1,290 @@
+
+<div class="pagetitle pb-3">
+    <h1>Dashboard</h1>
+
+</div><!-- End Page Title -->
+
+<section class=" dashboard">
+    <div class="row">
+
+
+        <div class="col-lg-8">
+            <div class="row">
+
+
+                <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card sales-card">
+
+                        <div class="filter">
+                            <a class="icon" href="javascript:void(0)"><i
+                                   class="bi bi-plus-circle" style="font-size: 1.25rem;"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Lahan Tersedia</h5>
+
+                            <div class="d-flex align-items-center">
+                                <div
+                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-p-circle"></i>
+                                </div>
+                                <div class='ps-3'>
+                                    <h6>256 Area</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card customers-card">
+
+
+                        <div class="card-body">
+                            <h5 class="card-title">Pengguna</h5>
+
+                            <div class="d-flex align-items-center">
+                                <div
+                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>5 Orang</h6>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xxl-6 col-md-12">
+                    <div class="card info-card revenue-card">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Keuntungan</h5>
+
+                            <div class="d-flex align-items-center">
+                                <div
+                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-cash-stack"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>Rp50.000.000 </h6>
+                                    <small></small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xxl-6 col-md-12">
+                    <div class="card info-card revenue-card">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Total Transaksi</h5>
+
+                            <div class="d-flex align-items-center">
+                                <div
+                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-cash-stack"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>50.000 Trx.</h6>
+                                    <small></small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xxl-6 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Monitoring Area Parkir <span>/Today</span></h5>
+
+
+                            <div class="d-flex flex-wrap justify-content-center align-items-center"
+                                 style="min-height: 265px;">
+
+                                <!-- <ng-container *ngIf="jmlArea == 0 ; else monitorKosong">
+                                <p>Area parkir belum ada.</p>
+                            </ng-container>
+                            <ng-template #monitorKosong>
+                                <div class="parking-spot" *ngFor="let data of areaList"
+                                    [class.kosong]="data.status === 'kosong'"
+                                    [class.booking]="data.status === 'booking'"
+                                    [class.penuh]="data.status === 'penuh'">
+                                    {{ data.nama }}
+                                </div>
+                            </ng-template> -->
+                            </div>
+
+
+                            <!-- End Line Chart -->
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xxl-6 col-md-6">
+                    <div class="card">
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Quick Setting</h5>
+                            <div style="min-height: 265px;">
+                                <form>
+                                    <div class="form-group mb-3">
+                                        <label for="exampleInputEmail1">Harga Sewa <small>(Rp)</small></label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                               aria-describedby="emailHelp" placeholder="Harga Sewa ">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="exampleInputPassword1">Range Expire</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="Waktu expired booking">
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label for="exampleInputPassword1">SASA</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="Waktu expired booking">
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <div class="card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
+
+                        <li><a class="dropdown-item" href="#">Today</a></li>
+                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Aktifitas Terkini</h5>
+
+                    <div class="activity">
+                        <!-- Recent Activity Feed 10 activity -->
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">32 min</div>
+                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                            <div class="activity-content">
+                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                            </div>
+                        </div><!-- End activity item-->
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">32 min</div>
+                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                            <div class="activity-content">
+                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                            </div>
+                        </div><!-- End activity item-->
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">32 min</div>
+                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                            <div class="activity-content">
+                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                            </div>
+                        </div><!-- End activity item-->
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">32 min</div>
+                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                            <div class="activity-content">
+                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                            </div>
+                        </div><!-- End activity item-->
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">32 min</div>
+                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                            <div class="activity-content">
+                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                            </div>
+                        </div><!-- End activity item-->
+
+
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">56 min</div>
+                            <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
+                            <div class="activity-content">
+                                Voluptatem blanditiis blanditiis eveniet
+                            </div>
+                        </div><!-- End activity item-->
+
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">2 hrs</div>
+                            <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
+                            <div class="activity-content">
+                                Voluptates corrupti molestias voluptatem
+                            </div>
+                        </div><!-- End activity item-->
+
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">1 day</div>
+                            <i class="bi bi-circle-fill activity-badge text-info align-self-start"></i>
+                            <div class="activity-content">
+                                Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a>
+                                tempore
+                            </div>
+                        </div><!-- End activity item-->
+
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">2 days</div>
+                            <i class="bi bi-circle-fill activity-badge text-warning align-self-start"></i>
+                            <div class="activity-content">
+                                Est sit eum reiciendis exercitationem
+                            </div>
+                        </div><!-- End activity item-->
+
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">4 weeks</div>
+                            <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
+                            <div class="activity-content">
+                                Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                            </div>
+                        </div><!-- End activity item-->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <qrcode [qrdata]="'Your data string'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode> -->
+</section>

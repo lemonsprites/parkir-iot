@@ -1,0 +1,21 @@
+/* chat.component.scss */
+.message {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .user-message {
+    background-color: #e6f7ff;
+    align-self: flex-end;
+  }
+
+  .agent-message {
+    background-color: #f2f2f2;
+    align-self: flex-start;
+  }
+
+  .chat-messages {
+    max-height: 300px;
+    overflow-y: auto;
+  }

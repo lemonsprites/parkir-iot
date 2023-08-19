@@ -1,1 +1,85 @@
-<p>register works!</p>
+<main>
+    <div class="container">
+
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="index.html" class="logo d-flex align-items-center w-auto">
+                                <i class="bi bi-p-square me-3 h1"></i>
+                                <span class="d-none d-lg-block">PARKIR IOT</span>
+                            </a>
+                        </div>
+
+                        <div class="card mb-3">
+
+                            <div class="card-body">
+
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">Buat akun Baru anda.</h5>
+                                    <p class="text-center small">Masukan Siapkan data untuk membuat akun</p>
+                                </div>
+
+                                <form class="row g-3 needs-validation" novalidate [formGroup]="registerForm">
+                                    <fieldset class="col-12">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control" id="email"
+                                               formControlName="email">
+                                    </fieldset>
+
+                                    <fieldset class="col-12">
+                                        <label for="password" class="form-label">Kata sandi</label>
+                                        <input type="password" class="form-control" formControlName="password"
+                                               id="password">
+                                        <div class="invalid-feedback">Masukan kata sandi baru anda!</div>
+                                    </fieldset>
+                                    <fieldset class="col-12">
+                                        <label for="password2" class="form-label">Konfirmasi Kata Sandi</label>
+                                        <input type="password" class="form-control" formControlName="password2"
+                                               id="password2">
+                                        <div class="invalid-feedback">Masukan kata sandi baru anda!</div>
+                                    </fieldset>
+
+
+                                    <div class="col-12 pt-2">
+                                        <ng-container *ngIf="loading;
+                                        else loginBtn
+                                    ">
+                                            <button
+                                                    class="btn btn-primary w-100"
+                                                    type="button"
+                                                    disabled="">
+                                                <span
+                                                      class="spinner-border spinner-border-sm"
+                                                      role="status"
+                                                      aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        </ng-container>
+                                        <ng-template #loginBtn>
+                                            <button
+                                                    class="btn btn-primary w-100"
+                                                    (click)="registerSubmit()"
+                                                    [disabled]="registerForm.invalid">
+                                                Buat akun!
+                                            </button>
+                                        </ng-template>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <p class="small mb-0">Udah punya akun? <a href="javascript:void(0)"
+                                               routerLink="/login">Masuk ke sini.</a></p>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</main><!-- End #main -->

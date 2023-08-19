@@ -1,1 +1,112 @@
-<p>login works!</p>
+<main>
+    <div class="container mx-auto">
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                        <div class="d-flex justify-content-center py-4">
+                            <a
+                               href="index.html"
+                               class="logo d-flex align-items-center w-auto">
+                                <i class="bi bi-p-square me-3 h1"></i>
+                                <span class="d-none d-lg-block">PARKIR IOT</span>
+                            </a>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">
+                                        Masuk ke akun anda
+                                    </h5>
+                                    <p class="text-center small">
+                                        Masukan email untuk masuk aplikasi
+                                    </p>
+                                </div>
+
+                                <form
+                                      class="row g-3 needs-validation"
+                                      [formGroup]="loginForm"
+                                      #form="ngForm">
+                                    <div class="col-12">
+                                        <label
+                                               for="yourUsername"
+                                               class="form-label">Username</label>
+                                        <div class="input-group has-validation">
+                                            <input
+                                                   type="text"
+                                                   formControlName="email"
+                                                   class="form-control"
+                                                   required />
+                                            <div class="invalid-feedback">
+                                                Masukan email yang valid.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label
+                                               for="yourPassword"
+                                               class="form-label">Password</label>
+                                        <input
+                                               type="password"
+                                               formControlName="password"
+                                               class="form-control"
+                                               id="yourPassword"
+                                               required />
+                                        <div class="invalid-feedback">
+                                            Password tidak boleh kosong!
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <ng-container *ngIf="loading;
+                                                else loginBtn
+                                            ">
+                                            <button
+                                                    class="btn btn-primary w-100"
+                                                    type="button"
+                                                    disabled="">
+                                                <span
+                                                      class="spinner-border spinner-border-sm"
+                                                      role="status"
+                                                      aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        </ng-container>
+                                        <ng-template #loginBtn>
+                                            <button
+                                                    class="btn btn-primary w-100"
+                                                    (click)="loginSubmit()"
+                                                    [disabled]="!loginForm.invalid">
+                                                Masuk
+                                            </button>
+                                        </ng-template>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <p class="small mb-0">
+                                            Gak punya akun?
+                                            <a
+                                               href="javascript:void(0)"
+                                               routerLink="/register">Buat akun baru.</a>
+                                        </p>
+                                        <div class="divider">
+                                            <span class="konten">atau</span>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <a
+                                               class="btn btn-lg btn-light border w-100 fs-6 d-flex justify-content-center align-items-center">
+                                                <i class="bi bi-google mx-2 d-block"></i><small>Masuk dengan Akun
+                                                    Google</small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>

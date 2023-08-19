@@ -1,0 +1,20 @@
+.card-footer {
+    p {
+        margin-bottom: 8px;
+    }
+}
+
+.menu-rekomendasi {
+
+    a {
+        font-size: small;
+        color: gray;
+        padding: .5rem 1rem;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: lightgray;
+            color: gray;
+        }
+    }
+}
