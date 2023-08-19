@@ -9,7 +9,6 @@
     }
   },
   "projects": {
-    "default": "parkiran-booking",
-    "secondary": "finalprojectparking"
+    "default": "parkiran-booking"
   }
 }

@@ -1,27 +1,39 @@
 {
-    "emulators": {
-        "auth": {
-            "host": "http://127.0.0.1",
-            "port": 8080
-        },
-        "database": {
-            "host": "http://127.0.0.1",
-            "port": 9000
-        },
-        "storage": {
-            "host": "http://127.0.0.1",
-            "port": 9199
-        },
-        "ui": {
-            "enabled": true,
-            "port": 4000
-        },
-        "singleProjectMode": true
+  "emulators": {
+    "auth": {
+      "host": "http://127.0.0.1",
+      "port": 8080
     },
     "database": {
-        "rules": "database.rules.json"
+      "host": "http://127.0.0.1",
+      "port": 9000
     },
     "storage": {
-        "rules": "storage.rules"
+      "host": "http://127.0.0.1",
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "hosting": [
+    {
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "frameworksBackend": {},
+      "target": "parkir-iot"
     }
+  ]
 }
