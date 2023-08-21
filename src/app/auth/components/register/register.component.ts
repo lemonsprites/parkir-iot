@@ -1,7 +1,8 @@
-import { registerAction } from '@App/auth/store/auth.action';
+import { confirmPass } from '@App/shared/validators/comfirm-password.validator';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'piot-register',
@@ -10,35 +11,20 @@ import { Store } from '@ngrx/store';
 })
 export class RegisterComponent implements OnInit {
 
-    registerForm!: FormGroup;
-    loading: boolean = false;
+    registerForm: any;
+    isSubmit$: Observable<boolean>
 
-    constructor(private fb: FormBuilder, private store: Store) { }
+    constructor(private store: Store) { }
 
     ngOnInit(): void {
         this.initRegisterForm();
     }
 
-
     initRegisterForm() {
-        console.log('Form init')
-        this.registerForm = this.fb.group({
-            email: ['', Validators.required],
-            password: ['', Validators.required],
-            password2: ['', Validators.required]
-        })
+        this.registerForm = new FormGroup({
+            email: new FormControl('', [Validators.required, Validators.email]),
+            password: new FormControl('', [Validators.required]),
+            password2: new FormControl('', [Validators.required]),
+        }, confirmPass);
     }
-
-    registerSubmit() {
-        console.log(this.registerForm.value)
-        this.loading = true
-        setTimeout(() => {
-            this.loading = false
-
-            console.log(this.registerForm);
-            this.store.dispatch(registerAction(this.registerForm.value))
-        }, 2000)
-    }
-
-
 }

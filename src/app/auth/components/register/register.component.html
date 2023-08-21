@@ -22,7 +22,8 @@
                                     <p class="text-center small">Masukan Siapkan data untuk membuat akun</p>
                                 </div>
 
-                                <form class="row g-3 needs-validation" novalidate [formGroup]="registerForm">
+                                <form class="row g-3 needs-validation" novalidate [formGroup]="registerForm"
+                                      >
                                     <fieldset class="col-12">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control" id="email"
@@ -44,28 +45,23 @@
 
 
                                     <div class="col-12 pt-2">
-                                        <ng-container *ngIf="loading;
+                                        <button
+                                                class="btn btn-primary w-100"
+                                                type="submit"
+                                                [disabled]="registerForm.invalid === false ? (isSubmit$ | async ): registerForm.invalid ">
+                                            <!-- <ng-container *ngIf="isSubmit$ | async;
                                         else loginBtn
                                     ">
-                                            <button
-                                                    class="btn btn-primary w-100"
-                                                    type="button"
-                                                    disabled="">
                                                 <span
                                                       class="spinner-border spinner-border-sm"
                                                       role="status"
                                                       aria-hidden="true"></span>
                                                 Loading...
-                                            </button>
-                                        </ng-container>
-                                        <ng-template #loginBtn>
-                                            <button
-                                                    class="btn btn-primary w-100"
-                                                    (click)="registerSubmit()"
-                                                    [disabled]="registerForm.invalid">
+                                            </ng-container>
+                                            <ng-template #loginBtn>
                                                 Buat akun!
-                                            </button>
-                                        </ng-template>
+                                            </ng-template> -->
+                                        </button>
                                     </div>
                                     <div class="col-12 text-center">
                                         <p class="small mb-0">Udah punya akun? <a href="javascript:void(0)"

@@ -1,0 +1,46 @@
+.wrapper {
+    max-width: calc(100vw - 10rem);
+    width: 100%;
+    background-color: #f7f7f7;
+    margin: 0 auto;
+    padding: 3rem;
+
+
+    &.container {
+        justify-content: center;
+    }
+}
+
+.parking-spot {
+    min-height: 2rem;
+    min-width: 5%;
+    background-color: #ccc;
+    border: 1px solid #aaa;
+    margin: 1.4rem;
+    cursor: default;
+    padding: 1.5rem;
+    // transition: background-color 3s ease-in-out;
+
+
+    &.empty {
+        background-color: #90ee90;
+    }
+
+    &.booked {
+        background-color: #0091ff;
+        color: #fafafa;
+    }
+
+    &.full {
+        background-color: #ff4a4a;
+        color: #fafafa;
+    }
+    &.selected {
+        background-color: lightyellow !important;
+    }
+}
+
+@media only screen and (max-width: 1080) {
+
+
+}

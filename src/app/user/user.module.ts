@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, Routes } from '@angular/router';
 import { InfoDukunganComponent } from './components/info-dukungan/info-dukungan.component';
 import { UserHeaderComponent } from './components/layouts/user-header/user-header.component';
 import { UserSidebarComponent } from './components/layouts/user-sidebar/user-sidebar.component';
@@ -17,6 +17,6 @@ const userRoutes: Routes = [
 
 @NgModule({
     declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, UserReservasiComponent],
-    imports: [CommonModule, FormsModule, UserRoutes]
+    imports: [CommonModule, FormsModule, UserRoutes, ReactiveFormsModule]
 })
 export class UserModule { }

@@ -6,9 +6,16 @@
           "parkiran-booking"
         ]
       }
+    },
+    "finalprojectparking": {
+      "hosting": {
+        "parkir-iot": [
+          "finalprojectparking"
+        ]
+      }
     }
   },
   "projects": {
-    "default": "parkiran-booking"
+    "default": "finalprojectparking"
   }
 }

@@ -1,8 +1,4 @@
-import { IArea } from '@App/shared/models/IArea';
 import { Component, OnInit } from '@angular/core';
-import { Database, DatabaseInstances, getDatabase, list, object, ref } from '@angular/fire/database';
-import { onValue } from '@firebase/database';
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'admin-dashboard',
@@ -11,8 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class AdminDashboardComponent implements OnInit {
 
-    area$ = list(ref(getDatabase(),'area'))
-    user$ = list(ref(getDatabase(),'users'))
+    // area$ = list(ref(getDatabase(),'area'))
+    // user$ = list(ref(getDatabase(),'users'))
 
     jmlArea: any;
     jmlUser: any;
@@ -20,8 +16,8 @@ export class AdminDashboardComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        this.area$.subscribe( e => { this.jmlArea = e.length })
-        this.user$.subscribe( e => { this.jmlUser = e.length })
+        // this.area$.subscribe( e => { this.jmlArea = e.length })
+        // this.user$.subscribe( e => { this.jmlUser = e.length })
 
     }
 

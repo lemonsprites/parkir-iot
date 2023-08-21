@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { connectDatabaseEmulator, getDatabase, provideDatabase } from '@angular/fire/database';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,11 +14,13 @@ import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UserModule } from './user/user.module';
+import { Router } from '@angular/router';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
-    declarations: [AppComponent, NotFoundComponent],
+    declarations: [AppComponent, NotFoundComponent, TestComponent],
     imports: [
         // Angular Module
         BrowserModule,
@@ -32,30 +33,20 @@ import { NotFoundComponent } from './not-found/not-found.component';
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         // provideFirebaseApp(() => initializeApp(environment.firebase2, 'sensor')),
         provideAuth(() => {
-            const auth = getAuth()
-            if (environment.useEmulators) {
-                connectAuthEmulator(auth, 'http://127.0.0.1:8080');
-                return auth;
+            let auth = getAuth();
+            if (environment.production == false && environment.emulator.useEmulators == true) {
+                connectAuthEmulator(auth, environment.emulator.authHost)
             }
             return auth;
         }),
         provideDatabase(() => {
-            const database = getDatabase();
-            if (environment.useEmulators) {
-                connectDatabaseEmulator(database, '127.0.0.1', 9000)
-                return database;
+            let database = getDatabase()
+            if (environment.production == false && environment.emulator.useEmulators == true) {
+                connectDatabaseEmulator(database, environment.emulator.databaseHost, environment.emulator.databasePort)
             }
             return database;
         }),
-        // provideDatabase(() => {
-        //     const database2 = getDatabase(getApp('sensor'))
-        //     if (environment.useEmulators) {
-        //         connectDatabaseEmulator(database2, 'http://127.0.0.1', 9001)
-        //         return database2;
-        //     }
-        //     return database2;
-        // }),
-        // provideFirestore(() => getFirestore()),
+        // provideDatabase(() => getDatabase(getApp('sensor'))),
 
         // NgRX Module
         StoreModule.forRoot({}, {}),

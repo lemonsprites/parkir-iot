@@ -10,6 +10,5 @@ import { Database, DatabaseInstances, list, object, onValue, ref, set } from '@a
 export class AppComponent {
     title = 'parkir-iot';
 
-    Area: any;
-    constructor(private db: Database) {}
+    constructor() {}
 }

@@ -47,7 +47,7 @@
                                         <i class="bi bi-p-circle"></i>
                                     </div>
                                     <div class="ps-3">
-
+                                        <h6>{{ jmlArea }} Area</h6>
                                     </div>
                                 </div>
                             </div>
@@ -86,17 +86,19 @@
                                 <div class="d-flex flex-wrap justify-content-center align-items-center"
                                      style="min-height: 265px;">
 
-                                    <!-- <ng-container *ngIf="jmlArea == 0 ; else monitorKosong">
+                                    <!-- {{ jmlArea || json }} -->
+
+                                    <ng-container *ngIf="jmlArea == 0 ; else monitorKosong">
                                         <p>Area parkir belum ada.</p>
                                     </ng-container>
                                     <ng-template #monitorKosong>
                                         <div class="parking-spot" *ngFor="let data of areaList"
-                                            [class.kosong]="data.status === 'kosong'"
-                                            [class.booking]="data.status === 'booking'"
-                                            [class.penuh]="data.status === 'penuh'">
+                                             [class.kosong]="data.status === 'empty'"
+                                             [class.booking]="data.status === 'booked'"
+                                             [class.penuh]="data.status === 'full'">
                                             {{ data.nama }}
                                         </div>
-                                    </ng-template> -->
+                                    </ng-template>
                                 </div>
 
 

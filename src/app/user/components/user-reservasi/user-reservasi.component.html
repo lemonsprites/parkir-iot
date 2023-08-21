@@ -1,12 +1,44 @@
 <main id="main" class="main mx-auto col-md-9" style='max-width: 1080px;'>
 
     <div class="pagetitle pb-3">
-        <h1>Reservasi</h1>
+        <h1>Reservasi Area Parkir</h1>
 
     </div>
 
     <section class="reservasi">
-        <p>Parkir Area Reservasi Kompoenen Siap!!</p>
+        <form novalidate class="row card card-body row-cols-12 g-3" [formGroup]="formBooking" (submit)="bukaGerbang()">
+
+            <div class="col-md-6 justify-content-center d-flex">
+                <!-- <div class="parking-spot"> -->
+                <!-- [class.selected]="areaTerpilih === space.key" -->
+                <!-- {{space.payload.val().nama }} -->
+                <!-- (click)="togglePilihan(space.key)" -->
+                <!-- {{ space.payload.val().nama }} - {{ space.payload.val().status === 'booking' ? 'booked' : 'kosong' }} -->
+                <!-- <button class="parking-space" id="{{ data.key }}">{{ data.payload.val().nama }}</button> -->
+                <!-- </div> -->
+                <div class="parking-spot" *ngFor="let space of parkingSpaces" id="{{ space.key }}" [class.selected]="areaTerpilih === space.key" [class.booking]="space.status == 'booking'" [class.empty]="space.status == 'empty'" [class.full]="space.status == 'full'" (click)="togglePilihan(space.key)">{{ space.nama }}</div>
+
+                <!-- Add more buttons as needed -->
+            </div>
+            <div class='col-md-6'>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">Nama Area</label>
+                    <input type="text" class="form-control form-modal" formControlName="area" readonly value="{{ area ? area.nama : 'Pilih area...' }}">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">Tempo Reservasi</label>
+                    <input type="text" class="form-control form-modal" formControlName="tempo" readonly value="{{ tempo | date:'HH : mm : ss' }}">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">OTP Test</label>
+                    <input type="text" class="form-control form-modal" formControlName="otp">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark">Booking!</button>
+        </form>
     </section>
 
+
+    <!-- Empty Full Booked -->
 </main>
