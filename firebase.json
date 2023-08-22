@@ -23,12 +23,5 @@
   },
   "storage": {
     "rules": "storage.rules"
-  },
-  "hosting": [
-    {
-      "target": "parkir-iot",
-      "source": ".",
-      "frameworksBackend": {}
-    }
-  ]
+  }
 }

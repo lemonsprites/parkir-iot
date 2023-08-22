@@ -1,43 +1,40 @@
-import { Component } from '@angular/core';
+import * as AuthActions from '@App/auth/shared/stores/auth.actions';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-    loginForm!: FormGroup;
-    loading: boolean = false;
+export class LoginComponent implements OnInit {
+    // loading = false
 
+    loginForm = new FormGroup({
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required])
+    })
 
-    constructor(private fb: FormBuilder, private store: Store, private auth: Auth) {
-        this.initLoginForm()
+    constructor(private store: Store) {
+
+        console.log(AuthActions)
     }
 
-    initLoginForm() {
-        console.log('Form init')
-        this.loginForm = this.fb.group({
-            email: new FormControl('', [Validators.required, Validators.email]),
-            password: new FormControl('', [Validators.required])
-        })
+    ngOnInit(): void {
+        this.store.dispatch(AuthActions.loginInit())
+        this.loginForm
     }
 
     loginSubmit() {
-        console.log(this.loginForm.value)
-        this.loading = true
-        setTimeout(() => {
-            this.loading = false
+        const email = this.loginForm.get('email').value;
+        const password = this.loginForm.get('password').value;
 
-            console.log(this.loginForm);
-
-            this.loginForm.markAsUntouched()
-        }, 2000)
+        this.store.dispatch(AuthActions.loginWithEmail({ email, password }));
     }
 
     loginGoogle() {
-        signInWithPopup(this.auth, new GoogleAuthProvider());
+        this.store.dispatch(AuthActions.loginWithGoogle());
     }
+
 }

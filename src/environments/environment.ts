@@ -14,7 +14,7 @@ export const environment = {
         useEmulators: true,
         databaseHost: '127.0.0.1',
         databasePort: 9000,
-        authHost: 'http://127.0.0.1:9099',
+        authHost: 'http://127.0.0.1:8080/',
 
     }
 }
