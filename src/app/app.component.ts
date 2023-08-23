@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
-import { FirebaseApps } from '@angular/fire/app';
-import { Database, DatabaseInstances, list, object, onValue, ref, set } from '@angular/fire/database';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ToastService } from './toast/toast.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+
+export class AppComponent  {
     title = 'parkir-iot';
 
-    constructor() {}
+    constructor(private store: Store) { }
+
+    toast = inject(ToastService)
+
+
+    add() {
+        this.toast.showToast('Alert', 'pesan')
+    }
 }

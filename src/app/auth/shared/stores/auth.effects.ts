@@ -1,7 +1,10 @@
+import { ToastService } from '@App/toast/toast.service';
+import { IUser } from './../interfaces/auth.interface';
 import { register } from './auth.actions';
 import { AuthService } from '@App/auth/shared/auth.service';
 import * as AuthActions from '@App/auth/shared/stores/auth.actions';
 import { Injectable } from '@angular/core';
+import { UserCredential } from '@angular/fire/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 
@@ -9,15 +12,29 @@ import { catchError, map, of, switchMap } from 'rxjs';
 @Injectable()
 export class AuthEffects {
 
-    constructor(private authService: AuthService, private action$: Actions) { }
+    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService) { }
+
+    private mapUserCred(credentials: UserCredential): IUser {
+        return {
+            displayName: credentials.user.displayName,
+            email: credentials.user.email,
+            photoURL: credentials.user.photoURL,
+            uid: credentials.user.uid,
+            phoneNumber: credentials.user.phoneNumber,
+        };
+    }
 
     login$ = createEffect(() =>
         this.action$.pipe(
             ofType(AuthActions.loginWithEmail),
             switchMap(action =>
                 this.authService.loginFn(action.email, action.password).pipe(
-                    map(mapUser => AuthActions.loginSuccess({ user: mapUser.user })),
-                    catchError(err => of(AuthActions.authFail({ error: err.message })))
+                    map(credentials => this.mapUserCred(credentials)),
+                    map(mapUser => AuthActions.loginSuccess({ user: mapUser })),
+                    catchError(err => {
+                        this.toast.showToast("Error Guys!", err.message)
+                        return of(AuthActions.authFail({ error: err.message }))
+                    })
                 )
             )
         )
@@ -28,8 +45,12 @@ export class AuthEffects {
             ofType(AuthActions.loginWithGoogle),
             switchMap(action =>
                 this.authService.loginWithGoogleFn().pipe(
-                    map(mapUser => AuthActions.loginSuccess({ user: mapUser.user })),
-                    catchError(err => of(AuthActions.authFail({ error: err })))
+                    map(credentials => this.mapUserCred(credentials)),
+                    map(mapUser => AuthActions.loginSuccess({ user: mapUser })),
+                    catchError(err => {
+                        this.toast.showToast("Error Guys!", err.message)
+                        return of(AuthActions.authFail({ error: err }))
+                    })
                 )
             )
         )
@@ -41,7 +62,11 @@ export class AuthEffects {
             switchMap(action =>
                 this.authService.registerFn(action.email, action.password).pipe(
                     map(mapUser => AuthActions.registerSuccess({ user: mapUser.user })),
-                    catchError(err => of(AuthActions.authFail({ error: err })))
+                    catchError(err => {
+                        this.toast.showToast("Error Guys!", err.message)
+
+                        return of(AuthActions.authFail({ error: err }))
+                    })
                 )
             )
         )

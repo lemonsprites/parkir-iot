@@ -1,3 +1,4 @@
+import { state } from '@angular/animations';
 
 import * as AuthActions from '@App/auth/shared/stores/auth.actions';
 import { AuthState } from '@App/auth/shared/interfaces/auth.interface';
@@ -18,4 +19,10 @@ export const authReducer = createReducer(
             user: action.user as UserInfo
         }
     }),
+    on(AuthActions.authFail, (state, action) => {
+        return {
+            ...state,
+            error: action.type
+        }
+    })
 );

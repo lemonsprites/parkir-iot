@@ -1,0 +1,21 @@
+<div class='toast-contain'>
+    <div aria-live="polite" aria-atomic="true" class='toast-margin'>
+        <!-- Position it -->
+        <div class="toast-float">
+
+            <div class="toast mb-2" [@fadeInOut] [class.show]="messages.length > 0 ? true : false" role="alert"
+                 aria-live="assertive" aria-atomic="true" *ngFor="let error of messages">
+                <div class="toast-header">
+                    <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                    <strong class="me-auto">{{error.title}}</strong>
+                    <small class="text-muted">{{ time(error.time) }}</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                            (click)="hideToast({title: error.title, message: error.message, time: error.time})"></button>
+                </div>
+                <div class="toast-body">
+                    {{ error.message }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

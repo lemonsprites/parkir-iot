@@ -1,7 +1,10 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { toastReducer } from './toast/stores/toast.reducer';
 
-import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { TimeAgo } from '@App/shared/time-ago.service';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { connectDatabaseEmulator, getDatabase, provideDatabase } from '@angular/fire/database';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,15 +18,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { UserModule } from './user/user.module';
-import { Router } from '@angular/router';
 import { TestComponent } from './test/test.component';
+import { ToastComponent } from './toast/toast.component';
+import { UserModule } from './user/user.module';
+import { ToastEffects } from '@App/toast/stores/toast.effect';
 
 @NgModule({
-    declarations: [AppComponent, NotFoundComponent, TestComponent],
+    declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],
     imports: [
         // Angular Module
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
@@ -49,16 +54,17 @@ import { TestComponent } from './test/test.component';
         // provideDatabase(() => getDatabase(getApp('sensor'))),
 
         // NgRX Module
-        StoreModule.forRoot({}, {}),
-        EffectsModule.forRoot([]),
+        StoreModule.forRoot({ 'toast': toastReducer }, {}),
+        EffectsModule.forRoot([ToastEffects]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
 
         // Development Module
         AuthModule,
         AdminModule,
         UserModule,
+
     ],
-    providers: [],
+    providers: [TimeAgo],
     exports: [FormsModule, ReactiveFormsModule, NotFoundComponent],
     bootstrap: [AppComponent]
 })

@@ -16,10 +16,7 @@ export class LoginComponent implements OnInit {
         password: new FormControl('', [Validators.required])
     })
 
-    constructor(private store: Store) {
-
-        console.log(AuthActions)
-    }
+    constructor(private store: Store) { }
 
     ngOnInit(): void {
         this.store.dispatch(AuthActions.loginInit())
