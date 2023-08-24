@@ -30,7 +30,9 @@ export class AuthEffects {
             switchMap(action =>
                 this.authService.loginFn(action.email, action.password).pipe(
                     map(credentials => this.mapUserCred(credentials)),
-                    map(mapUser => AuthActions.loginSuccess({ user: mapUser })),
+                    map(mapUser => {
+                        this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
+                        return AuthActions.loginSuccess({ user: mapUser })}),
                     catchError(err => {
                         this.toast.showToast("Error Guys!", err.message)
                         return of(AuthActions.authFail({ error: err.message }))
@@ -46,7 +48,9 @@ export class AuthEffects {
             switchMap(action =>
                 this.authService.loginWithGoogleFn().pipe(
                     map(credentials => this.mapUserCred(credentials)),
-                    map(mapUser => AuthActions.loginSuccess({ user: mapUser })),
+                    map(mapUser => {
+                        this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
+                        return AuthActions.loginSuccess({ user: mapUser })}),
                     catchError(err => {
                         this.toast.showToast("Error Guys!", err.message)
                         return of(AuthActions.authFail({ error: err }))
@@ -61,7 +65,9 @@ export class AuthEffects {
             ofType(AuthActions.register),
             switchMap(action =>
                 this.authService.registerFn(action.email, action.password).pipe(
-                    map(mapUser => AuthActions.registerSuccess({ user: mapUser.user })),
+                    map(mapUser => {
+                        this.toast.showToast("Info Guys!", "Kamu berhasil daftar!")
+                        return AuthActions.registerSuccess({ user: mapUser.user })}),
                     catchError(err => {
                         this.toast.showToast("Error Guys!", err.message)
 
