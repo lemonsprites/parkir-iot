@@ -1,6 +1,7 @@
 import { UserInfo } from "@angular/fire/auth";
 
 export interface IUser {
+    key?: string
     displayName: string | null
     email: string | null,
     photoURL: string | null

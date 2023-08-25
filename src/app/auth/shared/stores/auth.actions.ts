@@ -1,5 +1,4 @@
-import { IUser } from "@App/auth/shared/interfaces/auth.interface";
-import { UserInfo } from "@angular/fire/auth";
+import { IUser } from "@App/shared/models/auth.model";
 import { createAction, props } from "@ngrx/store";
 
 

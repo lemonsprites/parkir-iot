@@ -63,10 +63,10 @@
                                 <div class="d-flex align-items-center">
                                     <div
                                          class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cash-stack"></i>
+                                        <i class="bi bi-p-square"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>RpX.XXX</h6>
+                                        <h6>{{jmlArea | number:'1.0-0'}} Area</h6>
 
                                     </div>
                                 </div>
@@ -83,19 +83,18 @@
                             <div class="card-body">
                                 <h5 class="card-title">Monitoring Area Parkir <span>/Today</span></h5>
 
-                                <div class="d-flex flex-wrap justify-content-center align-items-center"
+                                <div class="d-flex flex-wrap justify-content-around align-items-center"
                                      style="min-height: 265px;">
 
-                                    <!-- {{ jmlArea || json }} -->
 
                                     <ng-container *ngIf="jmlArea == 0 ; else monitorKosong">
                                         <p>Area parkir belum ada.</p>
                                     </ng-container>
                                     <ng-template #monitorKosong>
-                                        <div class="parking-spot" *ngFor="let data of areaList"
-                                             [class.kosong]="data.status === 'empty'"
-                                             [class.booking]="data.status === 'booked'"
-                                             [class.penuh]="data.status === 'full'">
+                                        <div class="parking-spot" *ngFor="let data of area"
+                                             [class.empty]="data.status === 'empty'"
+                                             [class.booked]="data.status === 'booked'"
+                                             [class.fill]="data.status === 'fill'">
                                             {{ data.nama }}
                                         </div>
                                     </ng-template>

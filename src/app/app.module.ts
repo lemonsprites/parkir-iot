@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { toastReducer } from './toast/stores/toast.reducer';
 
 import { TimeAgo } from '@App/shared/time-ago.service';
+import { ToastEffects } from '@App/toast/stores/toast.effect';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { connectDatabaseEmulator, getDatabase, provideDatabase } from '@angular/fire/database';
@@ -21,7 +22,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { TestComponent } from './test/test.component';
 import { ToastComponent } from './toast/toast.component';
 import { UserModule } from './user/user.module';
-import { ToastEffects } from '@App/toast/stores/toast.effect';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],

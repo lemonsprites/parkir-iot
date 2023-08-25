@@ -1,5 +1,5 @@
 import { ToastService } from '@App/toast/toast.service';
-import { IUser } from './../interfaces/auth.interface';
+import { IUser } from '../../../shared/models/auth.model';
 import { register } from './auth.actions';
 import { AuthService } from '@App/auth/shared/auth.service';
 import * as AuthActions from '@App/auth/shared/stores/auth.actions';

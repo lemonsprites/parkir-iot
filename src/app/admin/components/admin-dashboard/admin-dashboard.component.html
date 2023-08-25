@@ -1,4 +1,3 @@
-
 <div class="pagetitle pb-3">
     <h1>Dashboard</h1>
 
@@ -15,10 +14,10 @@
                 <div class="col-xxl-6 col-md-6">
                     <div class="card info-card sales-card">
 
-                        <div class="filter">
-                            <a class="icon" href="javascript:void(0)"><i
+                        <!-- <div class="filter">
+                            <a class="icon" href="javascript:void(0)" (click)="open()"><i
                                    class="bi bi-plus-circle" style="font-size: 1.25rem;"></i></a>
-                        </div>
+                        </div> -->
 
                         <div class="card-body">
                             <h5 class="card-title">Lahan Tersedia</h5>
@@ -29,7 +28,7 @@
                                     <i class="bi bi-p-circle"></i>
                                 </div>
                                 <div class='ps-3'>
-                                    <!-- <h6>{{ jmlArea }} Area</h6> -->
+                                    <h6>{{ jmlArea }} Area</h6>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +50,7 @@
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <!-- <h6>{{ jmlUser }} Orang</h6> -->
+                                    <h6>{{ jmlUser }} Orang</h6>
                                 </div>
                             </div>
 
@@ -71,7 +70,7 @@
                                     <i class="bi bi-cash-stack"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>Rp50.000.000 </h6>
+                                    <h6>Rp{{jmlKeuntungan | number:'1.0-0'}}</h6>
                                     <small></small>
                                 </div>
                             </div>
@@ -91,7 +90,7 @@
                                     <i class="bi bi-cash-stack"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>50.000 Trx.</h6>
+                                    <h6>{{jmlTrans}} Trx.</h6>
                                     <small></small>
                                 </div>
                             </div>
@@ -106,20 +105,20 @@
                             <h5 class="card-title">Monitoring Area Parkir <span>/Today</span></h5>
 
 
-                            <div class="d-flex flex-wrap justify-content-center align-items-center"
+                            <div class="d-flex flex-wrap justify-content-evenly align-items-center"
                                  style="min-height: 265px;">
 
-                                <!-- <ng-container *ngIf="jmlArea == 0 ; else monitorKosong">
-                                <p>Area parkir belum ada.</p>
-                            </ng-container>
-                            <ng-template #monitorKosong>
-                                <div class="parking-spot" *ngFor="let data of areaList"
-                                    [class.kosong]="data.status === 'kosong'"
-                                    [class.booking]="data.status === 'booking'"
-                                    [class.penuh]="data.status === 'penuh'">
-                                    {{ data.nama }}
-                                </div>
-                            </ng-template> -->
+                                <ng-container *ngIf="jmlArea == 0 ; else monitorKosong">
+                                    <p>Area parkir belum ada.</p>
+                                </ng-container>
+                                <ng-template #monitorKosong>
+                                    <div class="parking-spot" *ngFor="let data of area"
+                                         [class.empty]="data.status === 'empty'"
+                                         [class.booking]="data.status === 'booking'"
+                                         [class.fill]="data.status === 'fill'">
+                                        {{ data.nama }}
+                                    </div>
+                                </ng-template>
                             </div>
 
 

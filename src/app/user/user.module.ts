@@ -9,6 +9,7 @@ import { UserDasboardComponent } from './components/user-dasboard/user-dasboard.
 import { UserReservasiComponent } from './components/user-reservasi/user-reservasi.component';
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
+import { AreaAddComponent } from '@App/shared/components/area-add/area-add.component';
 
 const userRoutes: Routes = [
 
@@ -17,6 +18,6 @@ const userRoutes: Routes = [
 
 @NgModule({
     declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, UserReservasiComponent],
-    imports: [CommonModule, FormsModule, UserRoutes, ReactiveFormsModule]
+    imports: [CommonModule, FormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent]
 })
 export class UserModule { }

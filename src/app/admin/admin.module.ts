@@ -10,11 +10,12 @@ import { AdminHeaderComponent } from './components/layouts/admin-header/admin-he
 import { AdminSidebarComponent } from './components/layouts/admin-sidebar/admin-sidebar.component';
 import { AdminBillingComponent } from './components/admin-billing/admin-billing.component';
 import { AdminLayananComponent } from './components/admin-layanan/admin-layanan.component';
+import { AreaAddComponent } from '@App/shared/components/area-add/area-add.component';
 
 
 
 @NgModule({
     declarations: [AdminComponent, AdminDashboardComponent, AdminHeaderComponent, AdminSidebarComponent, AdminProfilComponent, AdminKelolaUserComponent, AdminRiwayatTransaksiComponent, AdminBillingComponent, AdminLayananComponent],
-    imports: [CommonModule, AdminRoutes]
+    imports: [CommonModule, AdminRoutes, AreaAddComponent]
 })
 export class AdminModule { }
