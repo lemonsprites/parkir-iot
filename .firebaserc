@@ -1,12 +1,5 @@
 {
   "targets": {
-    "parkiran-booking": {
-      "hosting": {
-        "parkir-iot": [
-          "parkiran-booking"
-        ]
-      }
-    },
     "finalprojectparking": {
       "hosting": {
         "parkir-iot": [

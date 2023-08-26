@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "firebase emulators:exec --ui \"ng serve\" --import \"firebase\" --export-on-exit",
     "build": "ng build",
+    "deploy": "ng deploy hosting:parkir-iot",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "ngServe": "ng serve"

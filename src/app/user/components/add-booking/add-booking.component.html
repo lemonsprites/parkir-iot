@@ -1,0 +1,34 @@
+<h6 class="modal-header">Tambah Reservasi</h6>
+<form novalidate class="row g-3" [formGroup]="formBooking" (submit)="bookingSubmit()">
+    <div class="px-5 py-4">
+        <label>Pilih Area:</label>
+        <div class="d-flex flex-row justify-content-around align-items-center mb-5 border px-4 py-3">
+            <div class="parking-spot border" *ngFor="let space of parkingSpaces" id="{{ space.key }}"
+                 [class.selected]="areaTerpilih === space.key" [class.booked]="space.status == 'Booked'"
+                 [class.empty]="space.status == 'empty'" [class.fill]="space.status == 'fill'"
+                 (click)="togglePilihan(space.key)">
+                {{ space.status | json }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-2">
+                <label for="exampleInputEmail1">Nama Area</label>
+                <input type="text" class="form-control form-modal" formControlName="area" readonly
+                       value="{{ area ? area.nama : 'Pilih area...' }}">
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputEmail1">Tempo Reservasi</label>
+                <input type="text" class="form-control form-modal" formControlName="tempo" readonly
+                       value="{{ tempo | date:'HH : mm : ss' }}">
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputEmail1">OTP Test</label>
+                <input type="text" class="form-control form-modal" formControlName="otp">
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-dark">Booking!</button>
+        </div>
+    </div>
+</form>

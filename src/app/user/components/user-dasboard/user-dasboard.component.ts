@@ -3,22 +3,24 @@ import { AreaAddComponent } from '@App/shared/components/area-add/area-add.compo
 import { AreaService } from '@App/shared/services/area.services';
 import { TransactionsService } from '@App/shared/services/transactions.service';
 import { UsersService } from '@App/shared/services/users.service';
+import { AddBookingComponent } from '@App/user/components/add-booking/add-booking.component';
 import { Component } from '@angular/core';
 import { Database, DatabaseInstances, list, onValue, ref } from '@angular/fire/database';
 import { getDatabase } from '@firebase/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'user-dasboard',
-  templateUrl: './user-dasboard.component.html',
-  styleUrls: ['./user-dasboard.component.scss'],
+    selector: 'user-dasboard',
+    templateUrl: './user-dasboard.component.html',
+    styleUrls: ['./user-dasboard.component.scss'],
 })
 export class UserDasboardComponent {
     area$ = this.areaService.getAllArea()
     user$ = this.userService.getAllUser()
     trans$ = this.transService.getAllData()
 
-    jmlArea: number;
+    jmlAreaAll: number;
+    jmlAreaLastBooked: number;
     jmlKeuntungan: number;
     jmlUser: number;
     jmlTrans: number;
@@ -27,6 +29,17 @@ export class UserDasboardComponent {
 
 
 
+
+
+    open() {
+        const modalRef = this.modalService.open(AreaAddComponent);
+        modalRef.componentInstance.name = 'World';
+    }
+
+    bookingPopup() {
+        const modalRef = this.modalService.open(AddBookingComponent)
+    }
+
     constructor(
         private areaService: AreaService,
         private transService: TransactionsService,
@@ -34,7 +47,12 @@ export class UserDasboardComponent {
         private db: Database,
         private modalService: NgbModal
     ) {
-        this.area$.subscribe(e => this.jmlArea = e.length)
+        this.area$.subscribe(e => {
+            let data = e.filter(resfilter => resfilter.status !== "Booked")
+            this.jmlAreaAll = e.length
+            this.jmlAreaLastBooked = data.length
+            // console.log(this.jmlArea)
+        })
         this.user$.subscribe(e => this.jmlUser = e.length)
         this.jmlKeuntungan = this.transService.total
         // console.log(this.jmlKeuntungan);
@@ -51,13 +69,6 @@ export class UserDasboardComponent {
 
 
     }
-
-
-    open() {
-        const modalRef = this.modalService.open(AreaAddComponent);
-        modalRef.componentInstance.name = 'World';
-    }
-
 
 
 }

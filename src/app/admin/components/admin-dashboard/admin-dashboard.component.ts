@@ -36,7 +36,11 @@ export class AdminDashboardComponent {
         private db: Database,
         private modalService: NgbModal
     ) {
-        this.area$.subscribe(e => this.jmlArea = e.length)
+        this.area$.subscribe(e => {
+            let data = e.filter(resfilter => resfilter.status !== "Booked")
+            this.jmlArea = data.length
+            console.log(this.jmlArea)
+        })
         this.user$.subscribe(e => this.jmlUser = e.length)
         this.jmlKeuntungan = this.transService.total
         // console.log(this.jmlKeuntungan);

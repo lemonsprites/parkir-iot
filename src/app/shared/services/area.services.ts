@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IArea } from '@App/shared/area.interface';
 import { Injectable } from '@angular/core';
 import { Database, listVal, ref } from '@angular/fire/database';
@@ -14,6 +14,6 @@ export class AreaService {
     ) { }
 
     getAllArea(): Observable<IArea[]> {
-        return listVal(ref(this.db, 'area'), { keyField: 'key' })
+        return listVal<IArea>(ref(this.db, 'Ultrasonic'), { keyField: 'key' })
     }
 }
