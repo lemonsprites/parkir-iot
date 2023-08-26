@@ -1,6 +1,6 @@
 import { IUser } from '@App/shared/models/auth.model';
 import { Injectable, inject } from '@angular/core';
-import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
 import { Database, ref, set } from '@angular/fire/database';
 import { Observable, from } from 'rxjs';
 
@@ -31,5 +31,10 @@ export class AuthService {
     addUser(payload: IUser) {
         console.log(payload)
         set(ref(this.db, `users/${payload.uid}`), payload)
+    }
+
+    getCurrentUser() : string {
+        // return getAuth().currentUser.uid
+        return ''
     }
 }

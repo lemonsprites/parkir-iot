@@ -1,7 +1,7 @@
 import { IArea } from '@App/shared/area.interface';
 import { OtpProviderService } from '@App/shared/services/otp-provider.service';
 import { Component } from '@angular/core';
-import { user, getAuth } from '@angular/fire/auth';
+import { user, getAuth, Auth } from '@angular/fire/auth';
 import { DatabaseInstances, onValue, ref, object, getDatabase, update, set, Database, listVal, objectVal } from '@angular/fire/database';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -38,6 +38,8 @@ export class AddBookingComponent {
     togglePilihan(pilihan: string) {
         this.areaTerpilih = this.areaTerpilih === pilihan ? '' : pilihan;
         objectVal<IArea>(ref(this.db, `Ultrasonic/${pilihan}`), { keyField: 'key' }).subscribe(x => this.area = x)
+        console.log(pilihan);
+
         this.tempo = new Date().getTime() + 60 ** 2 * 1000;
 
     }
@@ -75,7 +77,7 @@ export class AddBookingComponent {
     submitBook() {
         console.log(this.tempo)
         const updates = {};
-        const user_id = user(getAuth()).subscribe(x => x.uid)
+        // const user_id = user(this.auth).subscribe(x => x.uid)
         updates['/Ultrasonic/' + this.areaTerpilih] = {
             status: 'Booked',
             expired: this.tempo,
@@ -85,7 +87,7 @@ export class AddBookingComponent {
         updates[`/users/bookings/` + this.otpString] = {
             OTP: this.otpString,
             area_id: this.areaTerpilih,
-            user_id: user_id,
+            // user_id: user_id,
             start_time: new Date().getTime(),
             end_time: ''
         }
@@ -94,7 +96,7 @@ export class AddBookingComponent {
         updates[`/Ultrasonic/${this.area.nama}/${this.bookedVar}`]
         update(ref(this.db), updates)
         update(ref(this.db, '/Ultrasonic/Slot_A2/'), { otp_2: this.otpString })
-        console.log(object(ref(this.db[1], '/booking_list')).subscribe())
+        // console.log(object(ref(this.db[1], '/booking_list')).subscribe())
         // this.route.navigate(['user'])
 
 
@@ -106,18 +108,18 @@ export class AddBookingComponent {
     }
 
     bookingSubmit() {
-        let user_id = '';
-        user(getAuth()).subscribe(x => user_id = x.uid)
+        let user_id = getAuth().currentUser.uid;
+
         console.log(this.areaTerpilih)
         const updates = {}
 
-        updates[`/bookings/${this.otpString}`] = {
+        set(ref(this.db, `/bookings/${user_id}/${this.otpString}`), {
             nama: this.area.key,
             user_id: user_id,
             area_id: this.area.key,
-            status: this.area.status,
+            // status: this.area.status,
             timestamp: new Date().getTime()
-        }
+        })
 
         switch (this.area.nama) {
             case 'Slot_A1':
@@ -136,7 +138,7 @@ export class AddBookingComponent {
         }
         updates['/Ultrasonic/' + this.areaTerpilih] = {
             nama: this.area.key,
-            // status: 'booked',
+            status: 'Booked',
             expired: this.tempo,
             update: new Date().getTime(),
             [this.otpVar]: this.otpString,
@@ -150,6 +152,7 @@ export class AddBookingComponent {
 
     constructor(
         private db: Database,
+        private auth: Auth,
         private route: Router,
         private otp: OtpProviderService,
         public modal: NgbActiveModal
@@ -159,7 +162,8 @@ export class AddBookingComponent {
         this.area$.subscribe(e => {
             this.parkingSpaces = e
         })
-        console.log(this.areaTerpilih)
+        // console.log(this.areaTerpilih)
+        console.log()
     }
 
 

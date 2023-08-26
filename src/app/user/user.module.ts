@@ -10,6 +10,8 @@ import { UserSidebarComponent } from './components/layouts/user-sidebar/user-sid
 import { UserDasboardComponent } from './components/user-dasboard/user-dasboard.component';
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
+import { DetailBookingComponent } from '@App/user/components/detail-booking/detail-booking.component';
+import { EnterOtpComponent } from './components/enter-otp/enter-otp.component';
 
 const userRoutes: Routes = [
 
@@ -17,7 +19,7 @@ const userRoutes: Routes = [
 ];
 
 @NgModule({
-    declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent],
+    declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent, DetailBookingComponent, EnterOtpComponent],
     imports: [CommonModule, FormsModule, ReactiveFormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent]
 })
 export class UserModule { }

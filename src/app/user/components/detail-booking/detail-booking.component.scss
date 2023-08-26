@@ -1,0 +1,6 @@
+.parking-spot {
+    &.selected {
+        background-color: #0091ff !important;
+        color: #fafafa;
+    }
+}
