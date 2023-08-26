@@ -1,0 +1,27 @@
+<div class="card-body">
+    <h5 class="card-title">Aktifitas Terkini</h5>
+
+    <div class="activity">
+        <!-- Recent Activity Feed 10 activity -->
+        <!-- {{ activities | json }} -->
+        <div *ngFor="let activity of activities" class="activity-item d-flex">
+            <div class="activite-label">{{ getActivityTime(activity.timestamp) }}</div>
+            <i class="bi activity-badge align-self-start" [ngClass]="getActivityBadgeClass(activity.status)" ></i>
+            <div class="activity-content">
+                {{ getActivityStatusText(activity.status) }}
+                <a href="#" class="fw-bold text-dark">Booking ID: {{ activity.booking_id }}</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- <div class="activity-item d-flex">
+    <div class="activite-label">32 min</div>
+    <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+    <div class="activity-content">
+        Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+    </div>
+</div> -->
+<!-- [ngClass]="getActivityBadgeClass(activity.status)" -->

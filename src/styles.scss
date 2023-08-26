@@ -12,6 +12,27 @@
 * License: https://bootstrapmade.com/license/
 */
 
+
+.parking-spot {
+    padding: 20px;
+    justify-content: space-evenly;
+
+    &.empty {
+        background-color: green;
+        color: white;
+    }
+
+    &.booked {
+        background-color: blue;
+        color: white;
+    }
+
+    &.fill {
+        background-color: red;
+        color: white;
+    }
+}
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/

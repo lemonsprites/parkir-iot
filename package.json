@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "firebase emulators:exec --ui \"ng serve\"",
+    "start": "firebase emulators:exec --ui \"ng serve\" --import \"firebase\" --export-on-exit",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

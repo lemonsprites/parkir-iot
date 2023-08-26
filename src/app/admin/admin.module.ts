@@ -11,11 +11,14 @@ import { AdminSidebarComponent } from './components/layouts/admin-sidebar/admin-
 import { AdminBillingComponent } from './components/admin-billing/admin-billing.component';
 import { AdminLayananComponent } from './components/admin-layanan/admin-layanan.component';
 import { AreaAddComponent } from '@App/shared/components/area-add/area-add.component';
+import { AdminActivityComponent } from './components/admin-dashboard/components/admin-activity/admin-activity.component';
+import { TimeAgo } from '@App/shared/time-ago.service';
 
 
 
 @NgModule({
-    declarations: [AdminComponent, AdminDashboardComponent, AdminHeaderComponent, AdminSidebarComponent, AdminProfilComponent, AdminKelolaUserComponent, AdminRiwayatTransaksiComponent, AdminBillingComponent, AdminLayananComponent],
-    imports: [CommonModule, AdminRoutes, AreaAddComponent]
+    declarations: [AdminComponent, AdminDashboardComponent, AdminHeaderComponent, AdminSidebarComponent, AdminProfilComponent, AdminKelolaUserComponent, AdminRiwayatTransaksiComponent, AdminBillingComponent, AdminLayananComponent, AdminActivityComponent],
+    imports: [CommonModule, AdminRoutes, AreaAddComponent],
+    providers: [TimeAgo]
 })
 export class AdminModule { }
