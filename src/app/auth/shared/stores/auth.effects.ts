@@ -32,6 +32,7 @@ export class AuthEffects {
                     map(credentials => this.mapUserCred(credentials)),
                     map(mapUser => {
                         this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
+                        localStorage.setItem('user', JSON.stringify(mapUser))
                         return AuthActions.loginSuccess({ user: mapUser })
                     }),
                     catchError(err => {
@@ -51,6 +52,7 @@ export class AuthEffects {
                     map(credentials => this.mapUserCred(credentials)),
                     map(mapUser => {
                         this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
+                        localStorage.setItem('user', JSON.stringify(mapUser))
                         this.authService.addUser(mapUser)
                         return AuthActions.loginSuccess({ user: mapUser })
                     }),

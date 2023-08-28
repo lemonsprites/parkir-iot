@@ -14,7 +14,7 @@ export class DetailBookingComponent implements OnInit {
     formEnterOTP;
     @Input() bookingID;
 
-    bookingData: BookingModel
+    bookingData: BookingModel = null;
     initForm(): void {
         this.formEnterOTP = new FormGroup({
             area: new FormControl('', [Validators.required]),
@@ -24,17 +24,14 @@ export class DetailBookingComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
         console.log(this.bookingID)
-        let UID = getAuth().currentUser.uid
 
-        console.log(UID)
-
-        objectVal<BookingModel>(ref(this.db, `bookings/${UID}/${this.bookingID}`), { keyField: 'key' }).subscribe((e: BookingModel) => {
+        objectVal<BookingModel>(ref(this.db, `bookings/${this.bookingID}`), { keyField: 'key' }).subscribe((e: BookingModel) => {
             this.bookingData = e
             this.formEnterOTP.patchValue({
                 area: e.nama,
                 tempo: new Date(e.timestamp).toLocaleString(),
-                otp: e.key
             });
         })
 

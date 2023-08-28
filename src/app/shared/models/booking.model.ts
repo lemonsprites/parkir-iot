@@ -1,7 +1,11 @@
 export interface BookingModel {
-    key: string
+    key?: string
+    otpKey: string
     user_id: string
-    timestamp: number
+    start_time?: number
+    end_time?: number
     area_id: string
+    expired: string
     nama?: string
+    timestamp: number
 }

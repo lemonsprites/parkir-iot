@@ -22,6 +22,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { TestComponent } from './test/test.component';
 import { ToastComponent } from './toast/toast.component';
 import { UserModule } from './user/user.module';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],
@@ -33,10 +34,10 @@ import { UserModule } from './user/user.module';
         ReactiveFormsModule,
         AppRoutingModule,
         NgbModule,
+        DataTablesModule,
 
         // Firebase Module
         provideFirebaseApp(() => initializeApp(environment.firebase)),
-        // provideFirebaseApp(() => initializeApp(environment.firebase2, 'sensor')),
         provideAuth(() => {
             let auth = getAuth();
             if (environment.production == false && environment.emulator.useEmulators == true) {
@@ -51,7 +52,6 @@ import { UserModule } from './user/user.module';
             }
             return database;
         }),
-        // provideDatabase(() => getDatabase(getApp('sensor'))),
 
         // NgRX Module
         StoreModule.forRoot({ 'toast': toastReducer }, {}),
@@ -65,7 +65,7 @@ import { UserModule } from './user/user.module';
 
     ],
     providers: [TimeAgo],
-    exports: [FormsModule, ReactiveFormsModule, NotFoundComponent],
+    exports: [FormsModule, ReactiveFormsModule, NotFoundComponent, DataTablesModule],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
