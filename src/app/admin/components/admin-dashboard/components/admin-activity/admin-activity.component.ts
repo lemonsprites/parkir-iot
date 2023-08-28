@@ -1,7 +1,6 @@
-import { TimeAgo } from './../../../../../shared/time-ago.service';
-import { Observable } from 'rxjs';
 import { ActivityService } from '@App/shared/services/activity.service';
 import { Component, OnInit } from '@angular/core';
+import { TimeAgo } from './../../../../../shared/time-ago.service';
 
 @Component({
     selector: 'admin-activity',
@@ -10,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminActivityComponent implements OnInit {
     // activities$: Observable<any[]>;
-    activities: any = this.activityService.getAllActivitiesAllUser();
+    activities: any[] = [];
 
     constructor(private activityService: ActivityService, private time: TimeAgo) { }
 
@@ -22,8 +21,7 @@ export class AdminActivityComponent implements OnInit {
     }
 
     getActivityTime(timestamp: string): string {
-        // Implement your logic to calculate and format time difference (e.g., 32 min)
-        return this.time.timeAgo(new Date(timestamp).getTime());
+        return this.time.timeAgo(new Date(parseInt(timestamp)).getTime())
     }
 
     getActivityBadgeClass(status: string): string {

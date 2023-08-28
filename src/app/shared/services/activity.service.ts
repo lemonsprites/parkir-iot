@@ -1,7 +1,5 @@
-import { ActivityModel } from '@App/shared/models/activity.model.ts';
 import { Injectable } from '@angular/core';
-import { Database, listVal, objectVal, ref } from '@angular/fire/database';
-import { Observable, forkJoin, map, switchMap } from 'rxjs';
+import { Database, listVal, ref } from '@angular/fire/database';
 
 @Injectable({
     providedIn: 'root'

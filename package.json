@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "firebase emulators:exec --ui \"ng serve\" --import \"firebase\" --export-on-exit",
+    "start": "firebase emulators:exec --only=auth,database --ui \"ng serve\" --import \"firebase\" --export-on-exit",
     "build": "ng build",
     "deploy": "ng deploy hosting:parkir-iot",
     "watch": "ng build --watch --configuration development",
