@@ -156,15 +156,15 @@
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <div class="d-none d-md-block me-3 ps-2 ">
                         <div class='d-flex flex-column align-items-end'>
-                            <span>Noor Alfath</span>
-                            <small style='font-size: .7rem;'>Admin</small>
+                            <span>{{userData.displayName !== '' ? userData.displayName : '(Tanpa Nama)' }}</span>
                         </div>
 
                     </div>
-                    <ng-container> <!-- *ngIf="currentUser.photoURL !== ''; else kosong" -->
-                        <img src="assets/img/default-avatar.jpg" alt="Profile" class="rounded-circle">
+                    <ng-container *ngIf="userData.photoURL !== ''; else kosong">
+                        <img src="{{userData.photoURL}}" alt="Profile" class="rounded-circle">
                     </ng-container>
                     <ng-template #kosong>
+                        <img src="assets/img/default-avatar.jpg" alt="Profile" class="rounded-circle">
                         <img src="" alt="Profile" class="rounded-circle">
                     </ng-template>
 
@@ -172,8 +172,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Noor Alfath</h6>
-                        <span>Web Developer</span>
+                        <h6>Main Menu</h6>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -210,7 +209,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascipt:void(0)">
+                        <a class="dropdown-item d-flex align-items-center" (click)='logoutFn()'>
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Keluar</span>
                         </a>

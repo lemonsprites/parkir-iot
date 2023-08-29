@@ -9,12 +9,12 @@ const routes: Routes = [
     {
         path: 'user',
         loadChildren: () => import('./user/user.module').then(m => m.UserModule),
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
     },
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
 
     },
     { path: 'test', component: TestComponent },

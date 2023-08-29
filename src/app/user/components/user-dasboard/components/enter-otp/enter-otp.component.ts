@@ -1,3 +1,4 @@
+import { ToastService } from '@App/toast/toast.service';
 import { Component, OnInit } from '@angular/core';
 import { Database, child, equalTo, get, orderByChild, query, ref, set, update } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -68,38 +69,42 @@ export class EnterOtpComponent implements OnInit {
                         .then(e => {
                             otpInput = e.val();
 
-                            // Compare OTP values
-                            if (slotOTP === otpInput) {
-                                // Your logic here when OTPs match
-                                update(child(ref(this.db, 'bookings'), areaKey), { status: 'Fill', timestamp: new Date().getTime(), start_time: new Date().getTime() });
+                            if (areaData.expired >= new Date().getTime()) {
+                                // Compare OTP values
+                                if (slotOTP === otpInput) {
+                                    // Your logic here when OTPs match
+                                    update(child(ref(this.db, 'bookings'), areaKey), { status: 'Fill', timestamp: new Date().getTime(), start_time: new Date().getTime() });
 
-                                setTimeout(() => {
-                                    update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
-                                        [this.otpVar]: "",
-                                        update: new Date().getTime()
-                                    });
-                                }, 10000);
-
-
-                                set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
-                                setTimeout(() => {
-                                    set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
-                                }, 5000)
+                                    setTimeout(() => {
+                                        update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
+                                            [this.otpVar]: "",
+                                            update: new Date().getTime()
+                                        });
+                                    }, 10000);
 
 
-                                // Add Activity
+                                    set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
+                                    setTimeout(() => {
+                                        set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
+                                    }, 5000)
+
+
+                                    // Add Activity
+                                } else {
+                                    this.toast.showToast('Peringatan!','Kode OTP tidak valid.')
+                                }
                             } else {
-                                console.log('OTP values do not match.');
+                                this.toast.showToast('Peringatan!','OTP dan Data reservasi sudah tidak berlaku')
                             }
 
                         })
                         .catch(error => {
-                            console.error("Error fetching data:", error);
+                            this.toast.showToast('Peringatan!','Gagal mengambil Data.')
                         });
 
                 });
             } else {
-                console.log('No matching areas found.');
+                this.toast.showToast('Peringatan!','Gagal mengambil Data.')
             }
         });
 
@@ -111,7 +116,7 @@ export class EnterOtpComponent implements OnInit {
     }
 
 
-    constructor(private modal: NgbActiveModal, private db: Database) { }
+    constructor(private modal: NgbActiveModal, private db: Database, private toast: ToastService) { }
 
 
 

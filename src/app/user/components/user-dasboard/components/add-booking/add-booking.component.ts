@@ -88,7 +88,6 @@ export class AddBookingComponent implements OnDestroy {
             nama: this.area.key,
             status: 'Booked',
             update: new Date().getTime(),
-            expired: new Date().getTime()  + (60*60*1000),
             [this.otpVar]: this.otpString,
             [this.bookedVar]: 1
         };

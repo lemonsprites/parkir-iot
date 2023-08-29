@@ -91,12 +91,12 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
                 render: (data: any, type: any, full: any) => {
                     let className = '';
                     let statusName = ''
-                    if (full.expired <= new Date().getTime() && full.status !== 'Fill') {
-                        className = 'bg-danger text-white'
-                        statusName = 'expired'
-                    } else if (full.status == 'Fill' && full.expired <= new Date().getTime()) {
+                    if (full.status === 'Fill') {
                         className = 'bg-success';
                         statusName = 'finished'
+                    } else if (new Date(full.expired).getTime() <= new Date().getTime() && full.status !== 'Fill') {
+                        className = 'bg-danger text-white'
+                        statusName = 'expired'
                     } else {
                         className = 'bg-primary';
                         statusName = 'booked'

@@ -1,6 +1,7 @@
 import * as AuthActions from '@App/auth/shared/stores/auth.actions';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -9,6 +10,7 @@ import { Store } from '@ngrx/store';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
     // loading = false
 
     loginForm = new FormGroup({
@@ -16,11 +18,18 @@ export class LoginComponent implements OnInit {
         password: new FormControl('', [Validators.required])
     })
 
-    constructor(private store: Store) { }
+    constructor(
+        private store: Store,
+        private route: Router
+    ) { }
 
     ngOnInit(): void {
         this.store.dispatch(AuthActions.loginInit())
         this.loginForm
+
+        if (JSON.parse(localStorage.getItem('user')) !== null) {
+            this.route.navigate(['user'])
+        }
     }
 
     loginSubmit() {

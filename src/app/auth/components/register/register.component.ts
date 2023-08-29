@@ -2,6 +2,7 @@ import * as AuthActions from '@App/auth/shared/stores/auth.actions';
 import { confirmPass } from '@App/shared/validators/comfirm-password.validator';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -12,7 +13,9 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
 
-    constructor(private store: Store) {}
+    constructor(
+        private store: Store,
+        private route: Router) { }
 
     registerForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
@@ -23,6 +26,9 @@ export class RegisterComponent implements OnInit {
     ngOnInit(): void {
         this.store.dispatch(AuthActions.registerInit())
         this.registerForm
+        if (JSON.parse(localStorage.getItem('user')) !== null) {
+            this.route.navigate(['user'])
+        }
     }
 
     registerSubmit() {
