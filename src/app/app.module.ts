@@ -23,6 +23,7 @@ import { TestComponent } from './test/test.component';
 import { ToastComponent } from './toast/toast.component';
 import { UserModule } from './user/user.module';
 import { DataTablesModule } from 'angular-datatables';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],
@@ -35,6 +36,7 @@ import { DataTablesModule } from 'angular-datatables';
         AppRoutingModule,
         NgbModule,
         DataTablesModule,
+        ClipboardModule,
 
         // Firebase Module
         provideFirebaseApp(() => initializeApp(environment.firebase)),
@@ -65,7 +67,7 @@ import { DataTablesModule } from 'angular-datatables';
 
     ],
     providers: [TimeAgo],
-    exports: [FormsModule, ReactiveFormsModule, NotFoundComponent, DataTablesModule],
+    exports: [FormsModule, ReactiveFormsModule, NotFoundComponent, DataTablesModule, ClipboardModule],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

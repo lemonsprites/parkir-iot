@@ -1,16 +1,24 @@
+import { AuthGuard } from '@App/shared/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegisterComponent } from './auth/components/register/register.component';
-import { UserRoutes } from './user/user.routing';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { AuthRoutes } from './auth/auth.routing';
-import { AdminRoutes } from './admin/admin.routing';
 import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: '/login' },
-    { path: 'test', component: TestComponent }
-    // { path: '/**', component: NotFoundComponent}
+    { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule), canActivate: [AuthGuard] },
+    {
+        path: 'user',
+        loadChildren: () => import('./user/user.module').then(m => m.UserModule),
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        canActivate: [AuthGuard]
+
+    },
+    { path: 'test', component: TestComponent },
+    { path: '**', component: NotFoundComponent }
 
 
 ];

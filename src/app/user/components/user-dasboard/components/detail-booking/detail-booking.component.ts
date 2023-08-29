@@ -4,6 +4,7 @@ import { Auth, getAuth } from '@angular/fire/auth';
 import { Database, objectVal, ref } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
     selector: 'app-detail-booking',
@@ -37,10 +38,17 @@ export class DetailBookingComponent implements OnInit {
 
     }
 
+    copyToClipboard(otpCode: string) {
+        this.clipboard.copy(otpCode)
+        this.modal.close()
+    }
+
+
     constructor(
         private db: Database,
         public modal: NgbActiveModal,
-        private auth: Auth
+        private auth: Auth,
+        private clipboard: Clipboard
     ) {
         this.initForm()
 

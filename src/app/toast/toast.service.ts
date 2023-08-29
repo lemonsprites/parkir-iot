@@ -2,6 +2,7 @@ import { removeError, showError } from '@App/toast/stores/toast.action';
 import { selectToastErrors, toastState } from '@App/toast/stores/toast.reducer';
 import { IToast } from '@App/toast/toast.interface';
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
 @Injectable({
@@ -9,12 +10,12 @@ import { Store } from '@ngrx/store';
 })
 export class ToastService {
 
-    constructor(private store: Store<toastState>) {
+    constructor(private store: Store<toastState>, private sanitizer: DomSanitizer) {
 
     }
 
-    showToast(title: string, body: string, time?: number): void {
-
+    showToast(title: string, body: any, time?: number): void {
+        const safeHtml: SafeHtml = this.sanitizer.bypassSecurityTrustHtml(body)
         let toast = {
             title: title,
             message: body,

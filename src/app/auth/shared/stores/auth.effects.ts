@@ -7,12 +7,13 @@ import { Injectable } from '@angular/core';
 import { UserCredential } from '@angular/fire/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class AuthEffects {
 
-    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService) { }
+    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService, private route: Router) { }
 
     private mapUserCred(credentials: UserCredential): IUser {
         return {
@@ -32,6 +33,7 @@ export class AuthEffects {
                     map(credentials => this.mapUserCred(credentials)),
                     map(mapUser => {
                         this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
+                        window.location.reload()
                         localStorage.setItem('user', JSON.stringify(mapUser))
                         return AuthActions.loginSuccess({ user: mapUser })
                     }),
@@ -54,6 +56,7 @@ export class AuthEffects {
                         this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
                         localStorage.setItem('user', JSON.stringify(mapUser))
                         this.authService.addUser(mapUser)
+                        window.location.reload()
                         return AuthActions.loginSuccess({ user: mapUser })
                     }),
                     catchError(err => {
@@ -74,6 +77,7 @@ export class AuthEffects {
                     map(mapUser => {
                         this.toast.showToast("Info Guys!", "Kamu berhasil daftar!")
                         this.authService.addUser(mapUser)
+                        this.route.navigate(['/login'])
                         return AuthActions.registerSuccess({ user: mapUser })
                     }),
                     catchError(err => {

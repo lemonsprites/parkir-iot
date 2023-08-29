@@ -4,6 +4,7 @@ import { AreaAddComponent } from '@App/shared/components/area-add/area-add.compo
 import { AreaService } from '@App/shared/services/area.services';
 import { TransactionsService } from '@App/shared/services/transactions.service';
 import { UsersService } from '@App/shared/services/users.service';
+import { ToastService } from '@App/toast/toast.service';
 import { AddBookingComponent } from '@App/user/components/user-dasboard/components/add-booking/add-booking.component';
 import { Component, OnInit } from '@angular/core';
 import { Auth, getAuth } from '@angular/fire/auth';
@@ -28,17 +29,13 @@ export class UserDasboardComponent implements OnInit {
 
     area: IArea[];
 
-    // bookingsUser: any[];
-
-    open() {
-        const modalRef = this.modalService.open(AreaAddComponent);
-        modalRef.componentInstance.name = 'World';
-    }
-
     bookingPopup() {
-        const modalRef = this.modalService.open(AddBookingComponent);
+        if (this.jmlAreaLastBooked !== 0) {
+            this.modalService.open(AddBookingComponent);
+        } else {
+            this.toast.showToast('Informasi', 'Lahan untuk reservasi sudah Penuh!\nMohon coba lagi nanti.')
+        }
     }
-
 
     getUserID(): string {
         let user_id = getAuth().currentUser.uid;
@@ -71,7 +68,8 @@ export class UserDasboardComponent implements OnInit {
         private db: Database,
         private auth: AuthService,
         private authF: Auth,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private toast: ToastService
     ) { }
 
 

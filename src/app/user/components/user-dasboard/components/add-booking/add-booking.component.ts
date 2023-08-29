@@ -2,6 +2,7 @@ import { IArea } from '@App/shared/area.interface';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { BookingService } from '@App/shared/services/booking.service';
 import { OtpProviderService } from '@App/shared/services/otp-provider.service';
+import { ToastService } from '@App/toast/toast.service';
 import { Component, OnDestroy } from '@angular/core';
 import { user, getAuth, Auth } from '@angular/fire/auth';
 import { DatabaseInstances, onValue, ref, object, getDatabase, update, set, Database, listVal, objectVal, push, orderByChild, query } from '@angular/fire/database';
@@ -38,12 +39,15 @@ export class AddBookingComponent implements OnDestroy {
     }
 
     togglePilihan(pilihan: string) {
-        this.areaTerpilih = this.areaTerpilih === pilihan ? '' : pilihan;
-        objectVal<IArea>(ref(this.db, `Ultrasonic/${pilihan}`), { keyField: 'key' }).subscribe(x => this.area = x)
-        console.log(pilihan);
+        const selectedSpace = this.parkingSpaces.find(space => space.key === pilihan);
 
-        this.tempo = new Date().getTime() + 60 ** 2 * 1000;
-
+        if (selectedSpace && selectedSpace.status !== 'Booked') {
+            this.areaTerpilih = this.areaTerpilih === pilihan ? '' : pilihan;
+            objectVal<IArea>(ref(this.db, `Ultrasonic/${pilihan}`), { keyField: 'key' }).subscribe(x => this.area = x);
+            this.tempo = new Date().getTime() + 60 ** 2 * 1000;
+        } else if (selectedSpace && selectedSpace.status === 'Booked') {
+            this.toast.showToast('Informasi', 'Lahan sudah direservasi');
+        }
     }
 
     otp_slot1: any;
@@ -177,7 +181,8 @@ export class AddBookingComponent implements OnDestroy {
         private route: Router,
         private otp: OtpProviderService,
         public modal: NgbActiveModal,
-        private bookingService: BookingService
+        private bookingService: BookingService,
+        private toast: ToastService
     ) {
         this.initForm()
 

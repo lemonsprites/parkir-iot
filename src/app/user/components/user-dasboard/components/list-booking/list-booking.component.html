@@ -1,11 +1,8 @@
 <div class="card-body">
     <h5 class="card-title">Riwayat Transaksi</h5>
-
-    <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
-        <div class="datatable-container">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                   class="table table-borderless datatable datatable-table">
-                <!-- <thead>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+           class="table table-borderless hover datatable">
+        <!-- <thead>
                     <tr>
                         <th style="width: 10%;"><a href="#">#</a></th>
                         <th style="width: 30%;"><a href="#">UID</a></th>
@@ -28,9 +25,6 @@
                         <td (click)='openEnterOTP()'><span class="badge bg-success">Verifikasi OTP</span></td>
                     </tr>
                 </tbody> -->
-            </table>
-        </div>
-
-    </div>
+    </table>
 
 </div>

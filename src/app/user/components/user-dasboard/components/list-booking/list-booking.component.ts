@@ -1,9 +1,10 @@
+import { AuthService } from '@App/auth/shared/auth.service';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { BookingService } from '@App/shared/services/booking.service';
 import { EnterOtpComponent } from '@App/user/components/enter-otp/enter-otp.component';
 import { DetailBookingComponent } from '@App/user/components/user-dasboard/components/detail-booking/detail-booking.component';
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Database, listVal, orderByChild, query, ref } from '@angular/fire/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
@@ -34,21 +35,16 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
             const queryData = query(ref(this.db, 'bookings'), orderByChild('timestamp'));
 
             listVal<BookingModel>(queryData, { keyField: 'key' }).subscribe(x => {
-                this.bookingList = x.sort((a, b) => b.timestamp - a.timestamp)
+                let userDATA = JSON.parse(localStorage.getItem('user'))
+                this.bookingList = x.filter(user => user.user_id === userDATA.uid).sort((a, b) => b.timestamp - a.timestamp)
 
-                if (this.bookingList.length === 0) {
-                    callback({
-                        recordsTotal: 0,
-                        recordsFiltered: 0,
-                        data: []
-                    });
-                } else {
-                    callback({
-                        recordsTotal: this.bookingList.length,
-                        recordsFiltered: this.bookingList.length,
-                        data: this.bookingList
-                    });
-                }
+                const recordsTotal = this.bookingList.length;
+                const recordsFiltered = this.bookingList.length;
+                callback({
+                    recordsTotal,
+                    recordsFiltered,
+                    data: this.bookingList
+                });
             });
         },
         rowCallback: (row: Node, data: any[] | object, dataIndex: number) => {
@@ -67,7 +63,19 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
             { title: 'ID', data: 'key' },
             // { title: 'User ID', data: 'user_id' },
             { title: 'Area ID', data: 'area_id' },
-            { title: 'Nama', data: 'nama' },
+            {
+                title: 'Nama', data: 'user_id',
+                render: (data, type, row) => {
+                    let user = JSON.parse(localStorage.getItem('user'))
+                    if(user.uid === data) {
+                        // console.log(user.displayName);
+
+                        return user.displayName === '' || user.displayName === null  ? user.email : user.displayName
+                    } else {
+                        return '(Tanpa Nama)'
+                    }
+                }
+            },
             {
                 title: 'Expired', data: 'expired',
                 ngPipeInstance: this.datePipe,
@@ -119,7 +127,8 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
         private db: Database,
         private modalService: NgbModal,
         private bookingService: BookingService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private auth: AuthService
     ) {
         this.bookingService.update$.subscribe(() => {
             this.refreshData();

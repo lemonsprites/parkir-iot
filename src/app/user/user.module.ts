@@ -1,9 +1,9 @@
 import { AreaAddComponent } from '@App/shared/components/area-add/area-add.component';
 import { DetailBookingComponent } from '@App/user/components/user-dasboard/components/detail-booking/detail-booking.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Routes } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { EnterOtpComponent } from './components/enter-otp/enter-otp.component';
 import { InfoDukunganComponent } from './components/info-dukungan/info-dukungan.component';
@@ -15,13 +15,8 @@ import { UserDasboardComponent } from './components/user-dasboard/user-dasboard.
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
 
-const userRoutes: Routes = [
-
-
-];
-
 @NgModule({
     declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent, DetailBookingComponent, EnterOtpComponent, ListBookingComponent],
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent, DataTablesModule]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent, DataTablesModule, ClipboardModule]
 })
 export class UserModule { }

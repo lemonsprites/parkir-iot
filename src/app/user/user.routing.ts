@@ -7,14 +7,10 @@ import { UserComponent } from './user.component';
 
 const routes: Routes = [
     {
-        path: 'user',
+        path: '',
         component: UserComponent,
         children: [
-            {
-                path: '',
-                pathMatch: 'full',
-                redirectTo: 'dashboard',
-            },
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: UserDasboardComponent },
             { path: 'area-monitor', component: AreaMonitorComponent },
             { path: 'akun', component: UserAkunComponent },

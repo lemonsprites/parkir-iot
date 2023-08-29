@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "firebase emulators:exec --only=auth,database --ui \"ng serve\" --import \"firebase\" --export-on-exit",
+    "start": "firebase emulators:exec --only=auth,database --ui \"ng serve --host 0.0.0.0\" --import \"firebase\" --export-on-exit",
     "build": "ng build",
     "deploy": "ng deploy hosting:parkir-iot",
     "watch": "ng build --watch --configuration development",
@@ -13,11 +13,13 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.1.0",
+    "@angular/cdk": "^16.2.1",
     "@angular/common": "^16.1.0",
     "@angular/compiler": "^16.1.0",
     "@angular/core": "^16.1.0",
     "@angular/fire": "^7.6.1",
     "@angular/forms": "^16.1.0",
+    "@angular/material": "^16.2.1",
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",

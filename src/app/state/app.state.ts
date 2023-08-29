@@ -1,5 +1,7 @@
+import { AuthState } from "@App/shared/models/auth.model";
 
 export interface AppState {
     app: AppState,
-    // admin: AdminState
+    // admin: AdminState,
+    auth: AuthState
 }
