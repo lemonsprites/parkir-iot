@@ -1,4 +1,5 @@
 .parking-spot {
+    cursor: pointer;
     &.selected {
         background-color: #0091ff !important;
         color: #fafafa;

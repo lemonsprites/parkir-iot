@@ -5,16 +5,16 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
-    { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule), canActivate: [AuthGuard] },
+    { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
     {
         path: 'user',
         loadChildren: () => import('./user/user.module').then(m => m.UserModule),
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
     },
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
 
     },
     { path: 'test', component: TestComponent },

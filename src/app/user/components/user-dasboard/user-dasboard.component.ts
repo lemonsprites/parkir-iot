@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auth, getAuth } from '@angular/fire/auth';
 import { Database, onValue, ref } from '@angular/fire/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { take, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'user-dasboard',
@@ -31,7 +32,8 @@ export class UserDasboardComponent implements OnInit {
 
     bookingPopup() {
         if (this.jmlAreaLastBooked !== 0) {
-            this.modalService.open(AddBookingComponent);
+            const modalRef = this.modalService.open(AddBookingComponent);
+            modalRef.componentInstance.parkingSpaces = this.area;
         } else {
             this.toast.showToast('Informasi', 'Lahan untuk reservasi sudah Penuh!\nMohon coba lagi nanti.')
         }
@@ -44,7 +46,15 @@ export class UserDasboardComponent implements OnInit {
 
     ngOnInit() {
         this.area$.subscribe(e => {
-            let data = e.filter(resfilter => resfilter.status !== "Booked" && resfilter.status !== "Fill")
+            let data = e.map(area => {
+                const timeDifference = new Date(area.update).getTime() - new Date().getTime();
+                console.log(timeDifference)
+
+                return {
+                    ...area,
+                    status: timeDifference >= -3600000 ? 'Booked' : 'Empty'
+                }
+            }).filter(resfilter => resfilter.status !== "Booked" && resfilter.status !== "Fill")
             this.jmlAreaAll = e.length
             this.jmlAreaLastBooked = data.length
         })
@@ -58,7 +68,16 @@ export class UserDasboardComponent implements OnInit {
         })
         this.trans$.subscribe(e => this.jmlTrans = e.length)
 
-        this.area$.subscribe(e => this.area = e.flat());
+        this.area$.subscribe(e => {
+            this.area = e.map(area => {
+                const timeDifference = new Date(area.update).getTime() - new Date().getTime();
+
+                return {
+                    ...area,
+                    status: timeDifference >= -3600000 ? 'Booked' : 'Empty'
+                }
+            }).flat()
+        });
     }
 
     constructor(

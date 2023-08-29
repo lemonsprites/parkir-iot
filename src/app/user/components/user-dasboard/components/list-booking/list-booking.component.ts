@@ -1,7 +1,7 @@
 import { AuthService } from '@App/auth/shared/auth.service';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { BookingService } from '@App/shared/services/booking.service';
-import { EnterOtpComponent } from '@App/user/components/enter-otp/enter-otp.component';
+import { EnterOtpComponent } from '@App/user/components/user-dasboard/components/enter-otp/enter-otp.component';
 import { DetailBookingComponent } from '@App/user/components/user-dasboard/components/detail-booking/detail-booking.component';
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';

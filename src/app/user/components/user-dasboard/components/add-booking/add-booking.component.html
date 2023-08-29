@@ -5,9 +5,9 @@
         <div class="d-flex flex-row justify-content-around align-items-center mb-5 border px-4 py-3">
             <div class="parking-spot border" *ngFor="let space of parkingSpaces" id="{{ space.key }}"
                  [class.selected]="areaTerpilih === space.key" [class.booked]="space.status == 'Booked'"
-                 [class.empty]="space.status == 'empty'" [class.fill]="space.status == 'fill'"
+                 [class.empty]="space.status == 'Empty'" [class.fill]="space.status == 'Fill'"
                  (click)="togglePilihan(space.key)">
-                {{ space.status | json }}
+                {{ space.nama }}
             </div>
         </div>
         <div class="row">
@@ -20,10 +20,6 @@
                 <label for="exampleInputEmail1">Tempo Reservasi</label>
                 <input type="text" class="form-control form-modal" formControlName="tempo" readonly
                        value="{{ tempo | date:'HH : mm : ss' }}">
-            </div>
-            <div class="mb-2">
-                <label for="exampleInputEmail1">OTP Test</label>
-                <input type="text" class="form-control form-modal" formControlName="otp">
             </div>
         </div>
 

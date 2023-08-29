@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
-import { EnterOtpComponent } from './components/enter-otp/enter-otp.component';
+import { EnterOtpComponent } from './components/user-dasboard/components/enter-otp/enter-otp.component';
 import { InfoDukunganComponent } from './components/info-dukungan/info-dukungan.component';
 import { UserHeaderComponent } from './components/layouts/user-header/user-header.component';
 import { UserSidebarComponent } from './components/layouts/user-sidebar/user-sidebar.component';
