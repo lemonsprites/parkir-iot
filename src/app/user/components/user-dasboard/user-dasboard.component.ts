@@ -46,15 +46,20 @@ export class UserDasboardComponent implements OnInit {
 
     ngOnInit() {
         this.area$.subscribe(e => {
-            let data = e.map(area => {
-                const timeDifference = new Date(area.update).getTime() - new Date().getTime();
-                console.log(timeDifference)
+            let data = e
+                .filter(resfilter => resfilter.status !== "Booked" && resfilter.status !== "Fill")
+                .map(area => {
+                    const timeDifference = new Date(area.expired).getTime() - new Date().getTime();
+                    console.log(timeDifference)
 
-                return {
-                    ...area,
-                    status: timeDifference >= -3600000 ? 'Booked' : 'Empty'
-                }
-            }).filter(resfilter => resfilter.status !== "Booked" && resfilter.status !== "Fill")
+                    return {
+                        ...area,
+                        status: timeDifference >= -3600000 ? 'Booked' : 'Empty'
+                    }
+                })
+
+            this.area = e.flat()
+
             this.jmlAreaAll = e.length
             this.jmlAreaLastBooked = data.length
         })
@@ -67,17 +72,6 @@ export class UserDasboardComponent implements OnInit {
             })
         })
         this.trans$.subscribe(e => this.jmlTrans = e.length)
-
-        this.area$.subscribe(e => {
-            this.area = e.map(area => {
-                const timeDifference = new Date(area.update).getTime() - new Date().getTime();
-
-                return {
-                    ...area,
-                    status: timeDifference >= -3600000 ? 'Booked' : 'Empty'
-                }
-            }).flat()
-        });
     }
 
     constructor(

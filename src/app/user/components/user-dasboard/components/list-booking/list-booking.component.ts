@@ -67,10 +67,10 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
                 title: 'Nama', data: 'user_id',
                 render: (data, type, row) => {
                     let user = JSON.parse(localStorage.getItem('user'))
-                    if(user.uid === data) {
+                    if (user.uid === data) {
                         // console.log(user.displayName);
 
-                        return user.displayName === '' || user.displayName === null  ? user.email : user.displayName
+                        return user.displayName === '' || user.displayName === null ? user.email : user.displayName
                     } else {
                         return '(Tanpa Nama)'
                     }
@@ -91,10 +91,10 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
                 render: (data: any, type: any, full: any) => {
                     let className = '';
                     let statusName = ''
-                    if (full.expired <= new Date().getTime()) {
+                    if (full.expired <= new Date().getTime() && full.status !== 'Fill') {
                         className = 'bg-danger text-white'
                         statusName = 'expired'
-                    } else if (full.status == 'Fill') {
+                    } else if (full.status == 'Fill' && full.expired <= new Date().getTime()) {
                         className = 'bg-success';
                         statusName = 'finished'
                     } else {

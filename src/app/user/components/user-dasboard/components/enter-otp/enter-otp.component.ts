@@ -39,9 +39,6 @@ export class EnterOtpComponent implements OnInit {
                     const areaKey = childSnapshot.key;
                     const areaData = childSnapshot.val();
 
-                    // Update the status to 'occupied'
-                    console.log(areaData.area_id);
-                    update(child(ref(this.db, 'bookings'), areaKey), { status: 'Fill', timestamp: new Date().getTime(), start_time: new Date().getTime() });
 
                     switch (areaData.area_id) {
                         case 'Slot_A1':
@@ -58,27 +55,53 @@ export class EnterOtpComponent implements OnInit {
                             this.otpVar = 'otp_1';
                             break;
                     }
-                    setTimeout(() => {
-                        update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
-                            [this.otpVar]: "",
-                            update: new Date().getTime()
+
+                    let slotOTP = '';
+                    let otpInput = '';
+                    get(ref(this.db, `Ultrasonic/${areaData.area_id}/${this.otpVar}`))
+                        .then(e => {
+                            slotOTP = e.val();
+
+                            // Fetch otpInput after fetching slotOTP
+                            return get(ref(this.db, 'entered_otp'));
+                        })
+                        .then(e => {
+                            otpInput = e.val();
+
+                            // Compare OTP values
+                            if (slotOTP === otpInput) {
+                                // Your logic here when OTPs match
+                                update(child(ref(this.db, 'bookings'), areaKey), { status: 'Fill', timestamp: new Date().getTime(), start_time: new Date().getTime() });
+
+                                setTimeout(() => {
+                                    update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
+                                        [this.otpVar]: "",
+                                        update: new Date().getTime()
+                                    });
+                                }, 10000);
+
+
+                                set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
+                                setTimeout(() => {
+                                    set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
+                                }, 5000)
+
+
+                                // Add Activity
+                            } else {
+                                console.log('OTP values do not match.');
+                            }
+
+                        })
+                        .catch(error => {
+                            console.error("Error fetching data:", error);
                         });
 
-                    }, 10000)
-
-                    // Add Activity
-                    
                 });
             } else {
                 console.log('No matching areas found.');
             }
         });
-
-
-        set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
-        setTimeout(() => {
-            set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
-        }, 5000)
 
 
         this.modal.close()
