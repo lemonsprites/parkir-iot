@@ -1,26 +1,29 @@
 import { AuthService } from '@App/auth/shared/auth.service';
 import { IArea } from '@App/shared/area.interface';
-import { AreaAddComponent } from '@App/shared/components/area-add/area-add.component';
+import { ActivityService } from '@App/shared/services/activity.service';
 import { AreaService } from '@App/shared/services/area.services';
 import { TransactionsService } from '@App/shared/services/transactions.service';
 import { UsersService } from '@App/shared/services/users.service';
 import { ToastService } from '@App/toast/toast.service';
 import { AddBookingComponent } from '@App/user/components/user-dasboard/components/add-booking/add-booking.component';
-import { Component, OnInit } from '@angular/core';
-import { Auth, getAuth } from '@angular/fire/auth';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { Database, onValue, ref } from '@angular/fire/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'user-dasboard',
     templateUrl: './user-dasboard.component.html',
     styleUrls: ['./user-dasboard.component.scss'],
 })
-export class UserDasboardComponent implements OnInit {
+export class UserDasboardComponent implements OnInit, OnDestroy {
     area$ = this.areaService.getAllArea()
     user$ = this.userService.getAllUser()
     trans$ = this.transService.getAllData()
+    activity$ = this.activityService.getAllActivitiesAllUser()
+
+    destroyed = new Subject<any>()
 
     jmlAreaAll: number;
     jmlAreaLastBooked: number;
@@ -29,6 +32,7 @@ export class UserDasboardComponent implements OnInit {
     jmlTrans: number;
 
     area: IArea[];
+    activity: any[];
 
     bookingPopup() {
         if (this.jmlAreaLastBooked !== 0) {
@@ -39,13 +43,8 @@ export class UserDasboardComponent implements OnInit {
         }
     }
 
-    getUserID(): string {
-        let user_id = getAuth().currentUser.uid;
-        return user_id;
-    }
-
     ngOnInit() {
-        this.area$.subscribe(e => {
+        this.area$.pipe(takeUntil(this.destroyed)).subscribe(e => {
             let data = e
                 .filter(resfilter => resfilter.status !== "Booked" && resfilter.status !== "Fill")
                 .map(area => {
@@ -63,7 +62,7 @@ export class UserDasboardComponent implements OnInit {
             this.jmlAreaAll = e.length
             this.jmlAreaLastBooked = data.length
         })
-        this.user$.subscribe(e => this.jmlUser = e.length)
+        this.user$.pipe(takeUntil(this.destroyed)).subscribe(e => this.jmlUser = e.length)
         this.jmlKeuntungan = this.transService.total
 
         onValue(ref(this.db, 'payments'), (snap) => {
@@ -71,13 +70,24 @@ export class UserDasboardComponent implements OnInit {
                 this.jmlKeuntungan += res.val().amount
             })
         })
-        this.trans$.subscribe(e => this.jmlTrans = e.length)
+        this.trans$.pipe(takeUntil(this.destroyed)).subscribe(e => this.jmlTrans = e.length)
+
+        this.activity$.subscribe(e => {
+            this.activity = e.flat()
+            console.log(this.activity)
+        })
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed.next('');
+        this.destroyed.complete();
     }
 
     constructor(
         private areaService: AreaService,
         private transService: TransactionsService,
         private userService: UsersService,
+        private activityService: ActivityService,
         private db: Database,
         private auth: AuthService,
         private authF: Auth,

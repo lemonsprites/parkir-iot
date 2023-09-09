@@ -1,0 +1,37 @@
+.card-footer {
+    p {
+        margin-bottom: 8px;
+    }
+}
+
+.menu-rekomendasi {
+
+    a {
+        font-size: small;
+        color: gray;
+        padding: .5rem 1rem;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: lightgray;
+            color: gray;
+        }
+    }
+
+}
+
+
+
+.frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border-style: solid;
+    width: 36px;
+    height: 36px;
+
+    i {
+        font-size: 1.25rem;
+    }
+}

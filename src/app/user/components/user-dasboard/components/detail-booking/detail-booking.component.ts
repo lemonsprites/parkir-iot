@@ -16,7 +16,7 @@ export class DetailBookingComponent implements OnInit {
     formEnterOTP;
     @Input() bookingID;
 
-    bookingData: BookingModel = null;
+    bookingData: any = null;
     initForm(): void {
         this.formEnterOTP = new FormGroup({
             area: new FormControl('', [Validators.required]),
@@ -74,7 +74,10 @@ export class DetailBookingComponent implements OnInit {
                     [this.otpVar]: "",
                     status: "Empty",
                     update: new Date().getTime(),
-                    expired: 0
+                })
+                update(ref(this.db, `bookings/${id}`), {
+                    status: "cancelled",
+                    timestamp: new Date().getTime(),
                 })
                 this.toast.showToast('Informasi', `Reservasi dengan kode area #${areaData.area_id} dibatalkan`)
                 this.modal.close()

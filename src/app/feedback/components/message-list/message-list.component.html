@@ -1,0 +1,12 @@
+<div *ngFor="let message of messages">
+    <div *ngIf="message.sender === currentUser">
+        <div class="message sender">
+            {{ message.content }}
+        </div>
+    </div>
+    <div *ngIf="message.sender !== currentUser">
+        <div class="message receiver">
+            {{ message.content }}
+        </div>
+    </div>
+</div>

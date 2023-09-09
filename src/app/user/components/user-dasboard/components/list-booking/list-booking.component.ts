@@ -4,11 +4,11 @@ import { BookingService } from '@App/shared/services/booking.service';
 import { EnterOtpComponent } from '@App/user/components/user-dasboard/components/enter-otp/enter-otp.component';
 import { DetailBookingComponent } from '@App/user/components/user-dasboard/components/detail-booking/detail-booking.component';
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
-import { Database, listVal, orderByChild, query, ref } from '@angular/fire/database';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Database, equalTo, listVal, orderByChild, query, ref } from '@angular/fire/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'list-booking',
@@ -16,13 +16,16 @@ import { Subject } from 'rxjs';
     styleUrls: ['./list-booking.component.scss'],
     providers: [DatePipe]
 })
-export class ListBookingComponent implements OnInit, AfterViewInit {
-    bookingList: BookingModel[] = [];
+export class ListBookingComponent implements OnInit, AfterViewInit, OnDestroy {
+    bookingList: any[] = [];
     dtTrigger: Subject<any> = new Subject();
+    destroyed = new Subject<any>()
+    private refreshInterval: any;
 
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
 
+    userDATA = JSON.parse(localStorage.getItem('user'))
 
     dtOptions: any = {
         pagingType: 'full_numbers',
@@ -32,11 +35,10 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
         search: false,
         searching: false,
         ajax: (dataTablesParameters: any, callback) => {
-            const queryData = query(ref(this.db, 'bookings'), orderByChild('timestamp'));
+            const queryData = query(ref(this.db, 'bookings'), orderByChild('user_id'), equalTo(this.userDATA.uid));
 
-            listVal<BookingModel>(queryData, { keyField: 'key' }).subscribe(x => {
-                let userDATA = JSON.parse(localStorage.getItem('user'))
-                this.bookingList = x.filter(user => user.user_id === userDATA.uid).sort((a, b) => b.timestamp - a.timestamp)
+            listVal<BookingModel>(queryData, { keyField: 'key' }).pipe(takeUntil(this.destroyed)).subscribe(x => {
+                this.bookingList = x.sort((a, b) => b.timestamp - a.timestamp)
 
                 const recordsTotal = this.bookingList.length;
                 const recordsFiltered = this.bookingList.length;
@@ -50,12 +52,12 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
         rowCallback: (row: Node, data: any[] | object, dataIndex: number) => {
             row.childNodes[0].textContent = String(dataIndex + 1);
 
-            const self = this;
+
             const rowData = data as BookingModel;
             // Unbind first in order to avoid any duplicate handler
             $('td', row).off('click');
             $('td', row).on('click', () => {
-                self.getBookingDetails(rowData.key); // Use otpKey as the parameter
+                this.getBookingDetails(rowData.key); // Use otpKey as the parameter
             });
             return row;
         },
@@ -79,7 +81,41 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
             {
                 title: 'Expired', data: 'expired',
                 ngPipeInstance: this.datePipe,
-                ngPipeArgs: ['MMM dd, yyyy HH:mm:ss']
+                ngPipeArgs: ['MMM dd, yyyy HH:mm:ss'],
+                render: (data: any, type: any, full: any) => {
+                    if (full.start_time || full.end_time) {
+                        return null;
+                    } else {
+                        const expiredDate = new Date(full.expired); // Assuming expired is a valid date/time string
+                        return this.datePipe.transform(expiredDate, 'MMM dd, yyyy HH:mm:ss');
+                    }
+                }
+            },
+            {
+                title: 'Time Elapsed', data: 'start_time',
+                render: (data: any, type: any, full: any) => {
+                    if ((full.start_time && !full.end_time) && (full.status !== 'booked' && full.status !== 'cancelled')) {
+                        const creationDate = new Date(full.start_time); // Assuming start_time is a valid date/time string
+                        const now = new Date();
+                        const elapsedSeconds = Math.floor((now.getTime() - creationDate.getTime()) / 1000);
+                        const hours = Math.floor(elapsedSeconds / 3600);
+                        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+                        const seconds = elapsedSeconds % 60;
+                        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    } else if (full.end_time) {
+                        // If end_time is present, show the difference between start_time and end_time
+                        const startDate = new Date(full.start_time);
+                        const endDate = new Date(full.end_time);
+                        const elapsedSeconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
+                        const hours = Math.floor(elapsedSeconds / 3600);
+                        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+                        const seconds = elapsedSeconds % 60;
+                        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    } else {
+                        return '-';
+                    }
+                },
+                className: 'text-center'
             },
             {
                 title: 'Updated At', data: 'timestamp',
@@ -89,20 +125,31 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
             {
                 title: 'Status',
                 render: (data: any, type: any, full: any) => {
-                    let className = '';
-                    let statusName = ''
-                    if (full.status === 'Fill') {
-                        className = 'bg-success';
-                        statusName = 'finished'
-                    } else if (new Date(full.expired).getTime() <= new Date().getTime() && full.status !== 'Fill') {
-                        className = 'bg-danger text-white'
-                        statusName = 'expired'
+                    const now = new Date();
+                    const expiredDate = new Date(full.expired); // Assuming expired is a valid date/time string
+
+                    if (full.status == 'cancelled') {
+                        return '<span class="badge bg-danger text-white border-none">cancelled</span>';
+                    } else if (!full.start_time && now >= expiredDate) {
+                        return '<span class="badge bg-danger text-white border-none">expired</span>';
+                    } else if (full.start_time && !full.end_time) {
+                        return '<span class="badge bg-warning border-none">idle</span>';
+                    } else if (full.start_time && full.end_time) {
+                        const startDate = new Date(full.start_time);
+                        const endDate = new Date(full.end_time);
+
+                        if (now >= startDate && now <= endDate) {
+                            return '<span class="badge bg-primary border-none">ongoing</span>';
+                        } else if (now > endDate) {
+                            return '<span class="badge bg-success border-none">finished</span>';
+                        } else {
+                            return '<span class="badge bg-warning border-none">idle</span>';
+                        }
                     } else {
-                        className = 'bg-primary';
-                        statusName = 'booked'
+                        return '<span class="badge bg-primary border-none">booked</span>';
                     }
-                    return `<span class="badge ${className} border-none"">${statusName}</span>`;
-                }
+                },
+                className: 'text-center'
 
             }
         ],
@@ -148,7 +195,31 @@ export class ListBookingComponent implements OnInit, AfterViewInit {
         this.dtTrigger.next('');
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.refreshInterval = setInterval(() => {
+            this.updateTimeElapsed(); // Call the function to update time elapsed
+        }, 1000);
+    }
+
+    ngOnDestroy(): void {
+        clearInterval(this.refreshInterval);
+        this.destroyed.next('')
+        this.destroyed.complete()
+    }
+
+    updateTimeElapsed() {
+        const now = new Date();
+        this.bookingList.forEach(booking => {
+            const creationDate = new Date(booking.timestamp); // Assuming timestamp is a valid date/time string
+            const elapsedSeconds = Math.floor((now.getTime() - creationDate.getTime()) / 1000);
+            booking.timeElapsed = `${Math.floor(elapsedSeconds / 60)}:${elapsedSeconds % 60}`;
+        });
+
+        // Trigger DataTable update
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.draw();
+        });
+    }
 
     getBookingDetails(booking_id: string) {
         const modalRef = this.modalService.open(DetailBookingComponent);

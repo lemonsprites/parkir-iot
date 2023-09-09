@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "firebase emulators:exec --only=auth,database --ui \"ng serve --host 0.0.0.0 --prod\" --import \"firebase\" --export-on-exit",
+    "start": "firebase emulators:exec --only=auth,database --ui \"ng serve\" --import \"firebase\" --export-on-exit",
     "build": "ng build",
     "deploy": "ng deploy hosting:parkir-iot",
     "watch": "ng build --watch --configuration development",
@@ -38,6 +38,7 @@
     "datatables.net-buttons-dt": "^2.4.1",
     "jquery": "^3.6.0",
     "jszip": "^3.10.1",
+    "moment": "^2.29.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

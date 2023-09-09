@@ -1,0 +1,4 @@
+<div *ngFor="let conversation of conversations" (click)="selectConversation(conversation.id)">
+    <h4>{{ conversation.name }}</h4>
+    <p>Last Message: {{ conversation.lastMessage }}</p>
+</div>

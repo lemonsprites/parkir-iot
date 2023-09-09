@@ -60,7 +60,7 @@ export class AddBookingComponent implements OnDestroy {
             otpKey: this.otpString,
             nama: this.area.key,
             user_id: user.uid,
-            status: 'Booked',
+            status: 'booked',
             expired: this.tempo,
             area_id: this.area.key,
             timestamp: new Date().getTime()

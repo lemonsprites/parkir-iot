@@ -1,6 +1,6 @@
 import { ToastService } from '@App/toast/toast.service';
 import { Component, OnInit } from '@angular/core';
-import { Database, child, equalTo, get, orderByChild, query, ref, set, update } from '@angular/fire/database';
+import { Database, child, equalTo, get, orderByChild, push, query, ref, set, update } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,6 +13,7 @@ export class EnterOtpComponent implements OnInit {
     formEnterOTP;
     bookedVar = ''
     otpVar = ''
+
 
     ngOnInit(): void {
         this.formEnterOTP = new FormGroup({
@@ -59,6 +60,7 @@ export class EnterOtpComponent implements OnInit {
 
                     let slotOTP = '';
                     let otpInput = '';
+                    let user = JSON.parse(localStorage.getItem('user'));
                     get(ref(this.db, `Ultrasonic/${areaData.area_id}/${this.otpVar}`))
                         .then(e => {
                             slotOTP = e.val();
@@ -69,14 +71,15 @@ export class EnterOtpComponent implements OnInit {
                         .then(e => {
                             otpInput = e.val();
 
-                            if (areaData.expired >= new Date().getTime()) {
+                            if (areaData.expired >= new Date().getTime() && areaData.status !== 'cancelled') {
                                 // Compare OTP values
                                 if (slotOTP === otpInput) {
                                     // Your logic here when OTPs match
-                                    update(child(ref(this.db, 'bookings'), areaKey), { status: 'Fill', timestamp: new Date().getTime(), start_time: new Date().getTime() });
+                                    update(child(ref(this.db, 'bookings'), areaKey), { status: 'idle', timestamp: new Date().getTime(), start_time: new Date().getTime() });
 
                                     setTimeout(() => {
                                         update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
+                                            status: "Full",
                                             [this.otpVar]: "",
                                             update: new Date().getTime()
                                         });
@@ -90,6 +93,19 @@ export class EnterOtpComponent implements OnInit {
 
 
                                     // Add Activity
+                                    let activityKey = push(ref(this.db, 'activity'))
+
+                                    set(activityKey, {
+                                        area_id: areaData.area_id,
+                                        booking_id: areaKey,
+                                        status: "Get In",
+                                        user_id: user.uid,
+                                        timestamp: new Date().getTime()
+                                    })
+
+
+
+
                                 } else {
                                     this.toast.showToast('Peringatan!','Kode OTP tidak valid.')
                                 }
@@ -99,7 +115,7 @@ export class EnterOtpComponent implements OnInit {
 
                         })
                         .catch(error => {
-                            this.toast.showToast('Peringatan!','Gagal mengambil Data.')
+                            this.toast.showToast('Peringatan!','Gagal mengambil Data.' + error)
                         });
 
                 });

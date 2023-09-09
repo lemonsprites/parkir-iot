@@ -24,6 +24,7 @@ import { ToastComponent } from './toast/toast.component';
 import { UserModule } from './user/user.module';
 import { DataTablesModule } from 'angular-datatables';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { FeedbackModule } from '@App/feedback/feedback.module';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],
@@ -64,6 +65,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
         AuthModule,
         AdminModule,
         UserModule,
+        FeedbackModule
 
     ],
     providers: [TimeAgo],

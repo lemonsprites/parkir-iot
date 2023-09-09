@@ -3,7 +3,10 @@
         ".read": true,
         ".write": true,
         "bookings": {
-            ".indexOn": ["timestamp", "otpKey"]
+            ".indexOn": ["timestamp", "otpKey", "user_id"]
+        },
+        "activity": {
+            ".indexOn": ["user_id"]
         }
     }
 }
