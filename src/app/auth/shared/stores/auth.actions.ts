@@ -12,7 +12,7 @@ export const loginSuccess = createAction('[Auth Page] Login Success', props<{ us
 
 // Register Action
 export const registerInit = createAction('[Auth Page] init Register');
-export const register = createAction('[Auth Page] Register with Email', props<{ email: string, password: string }>());
+export const register = createAction('[Auth Page] Register with Email', props<{ email: string, password: string, displayName: string }>());
 export const registerSuccess = createAction('[Auth Page] Register Success', props<{ user: IUser }>());
 export const registerFail = createAction('[Auth Page] Register Fail', props<{ error: string }>());
 

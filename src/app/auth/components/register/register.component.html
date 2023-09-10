@@ -22,8 +22,13 @@
                                     <p class="text-center small">Masukan Siapkan data untuk membuat akun</p>
                                 </div>
 
-                                <form class="row g-3 needs-validation" novalidate [formGroup]="registerForm" (submit)="registerSubmit()"
-                                      >
+                                <form class="row g-3 needs-validation" novalidate [formGroup]="registerForm"
+                                      (submit)="registerSubmit()">
+                                    <fieldset class="col-12">
+                                        <label for="email" class="form-label">Nama</label>
+                                        <input type="text" name="name" class="form-control" id="name"
+                                               formControlName="name">
+                                    </fieldset>
                                     <fieldset class="col-12">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control" id="email"
@@ -48,9 +53,9 @@
                                         <button
                                                 class="btn btn-primary w-100"
                                                 type="submit"
-                                                [disabled]="registerForm.invalid === false ? false : registerForm.invalid "
-                                                >Buat Akun!
-                                                <!-- <ng-container *ngIf="isSubmit$ | async;
+                                                [disabled]="registerForm.invalid === false ? false : registerForm.invalid ">Buat
+                                            Akun!
+                                            <!-- <ng-container *ngIf="isSubmit$ | async;
                                         else loginBtn
                                     ">
                                                 <span

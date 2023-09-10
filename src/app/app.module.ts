@@ -8,6 +8,7 @@ import { ToastEffects } from '@App/toast/stores/toast.effect';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { connectDatabaseEmulator, getDatabase, provideDatabase } from '@angular/fire/database';
+import { provideStorage, getStorage, connectStorageEmulator } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
@@ -23,7 +24,7 @@ import { TestComponent } from './test/test.component';
 import { ToastComponent } from './toast/toast.component';
 import { UserModule } from './user/user.module';
 import { DataTablesModule } from 'angular-datatables';
-import {ClipboardModule} from '@angular/cdk/clipboard';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FeedbackModule } from '@App/feedback/feedback.module';
 
 @NgModule({
@@ -54,6 +55,13 @@ import { FeedbackModule } from '@App/feedback/feedback.module';
                 connectDatabaseEmulator(database, environment.emulator.databaseHost, environment.emulator.databasePort)
             }
             return database;
+        }),
+        provideStorage(() => {
+            let storage = getStorage()
+            if (environment.production == false && environment.emulator.useEmulators == true) {
+                connectStorageEmulator(storage, environment.emulator.databaseHost, environment.emulator.storagePort)
+            }
+            return storage;
         }),
 
         // NgRX Module

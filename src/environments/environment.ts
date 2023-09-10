@@ -13,6 +13,7 @@ export const environment = {
     emulator: {
         useEmulators: true,
         databaseHost: '127.0.0.1',
+        storagePort: 9199,
         databasePort: 9000,
         authHost: 'http://127.0.0.1:8080/',
 

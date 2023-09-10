@@ -1,13 +1,14 @@
 import { IUser } from '@App/shared/models/auth.model';
 import { Injectable, inject } from '@angular/core';
-import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, authState } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, authState, updateProfile, getAuth, User } from '@angular/fire/auth';
 import { Database, objectVal, ref, set } from '@angular/fire/database';
+import { Storage, ref as data, getDownloadURL } from '@angular/fire/storage';
 import { Observable, from } from 'rxjs';
 
 @Injectable()
 export class AuthService {
     userData: any
-    constructor(private db: Database, private auth: Auth) {
+    constructor(private db: Database, private auth: Auth, private storage: Storage) {
 
         authState(this.auth).subscribe((user) => {
             if (user) {
@@ -20,6 +21,8 @@ export class AuthService {
             }
         });
     }
+
+    gambarPath: string;
 
 
 
@@ -38,12 +41,23 @@ export class AuthService {
         return from(signOut(this.auth));
     }
 
-    registerFn(email: string, password: string): Observable<UserCredential> {
-        return from(createUserWithEmailAndPassword(this.auth, email, password));
+    registerFn(email: string, password: string, displayName: string): Observable<UserCredential> {
+        return from(createUserWithEmailAndPassword(this.auth, email, password).then((res) => {
+            let dataPath = data(this.storage, 'assets/boba-dino.jpg')
+            getDownloadURL(dataPath).then((e) => {
+                updateProfile(res.user as User, {
+                    displayName: displayName,
+                    photoURL: `${e}`
+                    // photoURL: `gs://${dataPath.bucket}/o/${dataPath.fullPath}?alt=media&token=c1963ec4-03af-499c-87f1-2968b73c25fd`
+                })
+            })
+
+
+            return res
+        }));
     }
 
     addUser(payload: IUser) {
-        console.log(payload)
         set(ref(this.db, `users/${payload.uid}`), payload)
     }
 

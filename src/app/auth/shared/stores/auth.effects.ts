@@ -4,16 +4,17 @@ import { register } from './auth.actions';
 import { AuthService } from '@App/auth/shared/auth.service';
 import * as AuthActions from '@App/auth/shared/stores/auth.actions';
 import { Injectable } from '@angular/core';
-import { UserCredential } from '@angular/fire/auth';
+import { User, UserCredential, updateProfile } from '@angular/fire/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import { getDownloadURL, ref as data, Storage } from '@angular/fire/storage';
 
 
 @Injectable()
 export class AuthEffects {
 
-    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService, private route: Router) { }
+    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService, private route: Router, private storage: Storage) { }
 
     private mapUserCred(credentials: UserCredential): IUser {
         return {
@@ -72,11 +73,13 @@ export class AuthEffects {
         this.action$.pipe(
             ofType(AuthActions.register),
             switchMap(action =>
-                this.authService.registerFn(action.email, action.password).pipe(
+                this.authService.registerFn(action.email, action.password, action.displayName).pipe(
                     map(credentials => this.mapUserCred(credentials)),
                     map(mapUser => {
+
                         this.toast.showToast("Info Guys!", "Kamu berhasil daftar!")
                         this.authService.addUser(mapUser)
+                        this.authService.logoutFn()
                         this.route.navigate(['/login'])
                         return AuthActions.registerSuccess({ user: mapUser })
                     }),
