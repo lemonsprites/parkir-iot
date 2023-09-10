@@ -14,9 +14,10 @@ import { ListBookingComponent } from './components/user-dasboard/components/list
 import { UserDasboardComponent } from './components/user-dasboard/user-dasboard.component';
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
+import { ActivityBookingComponent } from './components/user-dasboard/components/activity-booking/activity-booking.component';
 
 @NgModule({
-    declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent, DetailBookingComponent, EnterOtpComponent, ListBookingComponent],
+    declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent, DetailBookingComponent, EnterOtpComponent, ListBookingComponent, ActivityBookingComponent],
     imports: [CommonModule, FormsModule, ReactiveFormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent, DataTablesModule, ClipboardModule]
 })
 export class UserModule { }

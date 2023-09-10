@@ -1,3 +1,4 @@
+import { ActivityService } from '@App/shared/services/activity.service';
 import { IArea } from '@App/shared/area.interface';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { BookingService } from '@App/shared/services/booking.service';
@@ -66,6 +67,15 @@ export class AddBookingComponent implements OnDestroy {
             timestamp: new Date().getTime()
         });
 
+        // Add Activity Booked ke metadata User
+        this.activity.addActivity({
+            area_id: this.area.key,
+            booking_id: generateNewID.key,
+            status: 'booked',
+            user_id: user.uid,
+            user_name: user.displayName,
+        })
+
         // Filter Variabel yang dipake
         switch (this.area.nama) {
             case 'Slot_A1':
@@ -112,8 +122,7 @@ export class AddBookingComponent implements OnDestroy {
 
     constructor(
         private db: Database,
-        private auth: Auth,
-        private route: Router,
+        private activity: ActivityService,
         private otp: OtpProviderService,
         public modal: NgbActiveModal,
         private bookingService: BookingService,

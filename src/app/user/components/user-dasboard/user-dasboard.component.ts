@@ -21,7 +21,7 @@ export class UserDasboardComponent implements OnInit, OnDestroy {
     area$ = this.areaService.getAllArea()
     user$ = this.userService.getAllUser()
     trans$ = this.transService.getAllData()
-    activity$ = this.activityService.getAllActivitiesAllUser()
+    activity$ = this.activityService.getActivityCurrentUser()
 
     destroyed = new Subject<any>()
 
@@ -72,9 +72,8 @@ export class UserDasboardComponent implements OnInit, OnDestroy {
         })
         this.trans$.pipe(takeUntil(this.destroyed)).subscribe(e => this.jmlTrans = e.length)
 
-        this.activity$.subscribe(e => {
-            this.activity = e.flat()
-            console.log(this.activity)
+        this.activity$.pipe(takeUntil(this.destroyed)).subscribe(e => {
+            this.activity = e.flat().sort((a: any, b: any) => b.timestamp - a.timestamp)
         })
     }
 

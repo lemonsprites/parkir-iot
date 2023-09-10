@@ -1,3 +1,4 @@
+import { ActivityService } from '@App/shared/services/activity.service';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth, getAuth } from '@angular/fire/auth';
@@ -79,6 +80,17 @@ export class DetailBookingComponent implements OnInit {
                     status: "cancelled",
                     timestamp: new Date().getTime(),
                 })
+
+                // Add Activity Booked ke metadata User
+                this.activity.addActivity({
+                    area_id: areaData.nama,
+                    booking_id: areaData.area_id,
+                    status: 'cancelled',
+                    user_id: areaData.user_id,
+                    user_name: JSON.parse(localStorage.getItem('user')).displayName,
+                })
+
+
                 this.toast.showToast('Informasi', `Reservasi dengan kode area #${areaData.area_id} dibatalkan`)
                 this.modal.close()
 
@@ -94,7 +106,8 @@ export class DetailBookingComponent implements OnInit {
         public modal: NgbActiveModal,
         private auth: Auth,
         private clipboard: Clipboard,
-        private toast: ToastService
+        private toast: ToastService,
+        private activity: ActivityService
     ) {
         this.initForm()
 

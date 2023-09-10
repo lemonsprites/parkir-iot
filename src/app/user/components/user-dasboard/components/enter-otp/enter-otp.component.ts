@@ -1,3 +1,4 @@
+import { ActivityService } from '@App/shared/services/activity.service';
 import { ToastService } from '@App/toast/toast.service';
 import { Component, OnInit } from '@angular/core';
 import { Database, child, equalTo, get, orderByChild, push, query, ref, set, update } from '@angular/fire/database';
@@ -79,7 +80,7 @@ export class EnterOtpComponent implements OnInit {
 
                                     setTimeout(() => {
                                         update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
-                                            status: "Full",
+                                            status: "Fill",
                                             [this.otpVar]: "",
                                             update: new Date().getTime()
                                         });
@@ -93,34 +94,32 @@ export class EnterOtpComponent implements OnInit {
 
 
                                     // Add Activity
-                                    let activityKey = push(ref(this.db, 'activity'))
-
-                                    set(activityKey, {
+                                    this.activity.addActivity({
                                         area_id: areaData.area_id,
                                         booking_id: areaKey,
-                                        status: "Get In",
+                                        status: "entering",
                                         user_id: user.uid,
-                                        timestamp: new Date().getTime()
+                                        user_name: JSON.parse(localStorage.getItem('user')).displayName
                                     })
 
 
 
 
                                 } else {
-                                    this.toast.showToast('Peringatan!','Kode OTP tidak valid.')
+                                    this.toast.showToast('Peringatan!', 'Kode OTP tidak valid.')
                                 }
                             } else {
-                                this.toast.showToast('Peringatan!','OTP dan Data reservasi sudah tidak berlaku')
+                                this.toast.showToast('Peringatan!', 'OTP dan Data reservasi sudah tidak berlaku')
                             }
 
                         })
                         .catch(error => {
-                            this.toast.showToast('Peringatan!','Gagal mengambil Data.' + error)
+                            this.toast.showToast('Peringatan!', 'Gagal mengambil Data.' + error)
                         });
 
                 });
             } else {
-                this.toast.showToast('Peringatan!','Gagal mengambil Data.')
+                this.toast.showToast('Peringatan!', 'Gagal mengambil Data.')
             }
         });
 
@@ -132,7 +131,12 @@ export class EnterOtpComponent implements OnInit {
     }
 
 
-    constructor(private modal: NgbActiveModal, private db: Database, private toast: ToastService) { }
+    constructor(
+        private modal: NgbActiveModal,
+        private db: Database,
+        private toast: ToastService,
+        private activity: ActivityService
+    ) { }
 
 
 
