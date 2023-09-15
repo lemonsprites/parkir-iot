@@ -27,6 +27,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FeedbackModule } from '@App/feedback/feedback.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AuthGuard } from '@App/shared/guards/auth.guard';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],
@@ -78,7 +79,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         NgApexchartsModule
 
     ],
-    providers: [TimeAgo],
+    providers: [TimeAgo, AuthGuard],
     exports: [FormsModule, ReactiveFormsModule, NotFoundComponent, DataTablesModule, ClipboardModule, NgApexchartsModule],
     bootstrap: [AppComponent]
 })

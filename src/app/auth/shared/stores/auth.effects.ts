@@ -1,3 +1,4 @@
+import { NavbarComponent } from './../../../shared/components/navbar/navbar.component';
 import { ToastService } from '@App/toast/toast.service';
 import { IUser } from '../../../shared/models/auth.model';
 import { register } from './auth.actions';
@@ -9,12 +10,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { getDownloadURL, ref as data, Storage } from '@angular/fire/storage';
+import { Database, child, get, ref, set } from '@angular/fire/database';
 
 
 @Injectable()
 export class AuthEffects {
 
-    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService, private route: Router, private storage: Storage) { }
+    constructor(private authService: AuthService, private action$: Actions, private toast: ToastService, private route: Router, private storage: Storage, private db: Database) { }
 
     private mapUserCred(credentials: UserCredential): IUser {
         return {
@@ -34,9 +36,17 @@ export class AuthEffects {
                     map(credentials => this.mapUserCred(credentials)),
                     map(mapUser => {
                         this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
-                        localStorage.setItem('user', JSON.stringify(mapUser))
-                        this.route.navigate(['user/dashboard'])
-                        return AuthActions.loginSuccess({ user: mapUser })
+                        let data: any = {};
+                        get(child(ref(this.db), `users/${mapUser.uid}`)).then((snap) => {
+                            data = {
+                                ...mapUser,
+                                role: snap.val().role
+                            }
+
+                            localStorage.setItem('user', JSON.stringify(data))
+                            window.location.reload()
+                        })
+                        return AuthActions.loginSuccess({ user: data })
                     }),
                     catchError(err => {
                         this.toast.showToast("Error Guys!", err.message)
@@ -55,10 +65,22 @@ export class AuthEffects {
                     map(credentials => this.mapUserCred(credentials)),
                     map(mapUser => {
                         this.toast.showToast("Info Guys!", "Kamu berhasil masuk aplikasi!")
-                        localStorage.setItem('user', JSON.stringify(mapUser))
-                        this.authService.addUser(mapUser)
-                        this.route.navigate(['user/dashboard'])
-                        return AuthActions.loginSuccess({ user: mapUser })
+                        let userRole: any;
+                        get(child(ref(this.db), `users/${mapUser.uid}`))
+                            .then((snap) => {
+                                userRole = snap.val().role
+                            }).catch(() => {
+                                set(ref(this.db, `users/${mapUser.uid}`), { ...mapUser, role: 'user' })
+                            })
+                        let data = { ...mapUser, role: userRole || 'user' }
+                        localStorage.setItem('user', JSON.stringify(data))
+
+                        setTimeout(()=> {
+                            window.location.reload()
+                        }, 1000)
+
+
+                        return AuthActions.loginSuccess({ user: data })
                     }),
                     catchError(err => {
                         this.toast.showToast("Error Guys!", err.message)

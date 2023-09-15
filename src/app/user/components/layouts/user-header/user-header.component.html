@@ -157,11 +157,13 @@
                     <div class="d-none d-md-block me-3 ps-2 ">
                         <div class='d-flex flex-column align-items-end'>
                             <span>{{userData.displayName !== '' ? userData.displayName : '(Tanpa Nama)' }}</span>
+                            <small>{{userData.role | titlecase }}</small>
                         </div>
 
                     </div>
                     <ng-container *ngIf="userData.photoURL !== ''; else kosong">
-                        <img src="{{ userData.photoURL == undefined ? 'http://127.0.0.1:9199/v0/b/finalprojectparking.appspot.com/o/assets%2Fboba-dino.jpg?alt=media&token=09ec532c-0ced-4d0a-abe9-67a2edfde3a5' : userData.photoURL }}" alt="Profile" class="rounded-circle">
+                        <img src="{{ userData.photoURL == undefined ? 'http://127.0.0.1:9199/v0/b/finalprojectparking.appspot.com/o/assets%2Fboba-dino.jpg?alt=media&token=09ec532c-0ced-4d0a-abe9-67a2edfde3a5' : userData.photoURL }}"
+                             alt="Profile" class="rounded-circle">
                     </ng-container>
                     <ng-template #kosong>
                         <img src="assets/img/default-avatar.jpg" alt="Profile" class="rounded-circle">

@@ -15,8 +15,8 @@
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <div class="d-none d-md-block me-3 ps-2 ">
                         <div class='d-flex flex-column align-items-end'>
-                            <span>Noor Alfath</span>
-                            <small style='font-size: .7rem;'>Admin</small>
+                            <span>{{ userData.displayName }}</span>
+                            <small style='font-size: .7rem;'>{{ userData.role | titlecase}}</small>
                         </div>
 
                     </div>
@@ -53,7 +53,8 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascipt:void(0)">
+                        <a class="dropdown-item d-flex align-items-center" href="javascipt:void(0)"
+                           (click)="logoutFn()">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Keluar</span>
                         </a>

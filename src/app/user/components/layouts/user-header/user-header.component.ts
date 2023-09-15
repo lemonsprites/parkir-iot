@@ -11,10 +11,9 @@ import { Router } from '@angular/router';
 export class UserHeaderComponent implements OnInit{
     sidebarToggle: boolean = false
 
-    userData: UserInfo;
+    userData: any;
     togglingSidebar() {
         this.sidebarToggle = !this.sidebarToggle;
-        console.log(this.sidebarToggle)
     }
 
     newStatus(set : boolean) {

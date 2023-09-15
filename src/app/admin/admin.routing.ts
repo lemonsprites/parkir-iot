@@ -9,7 +9,7 @@ import { AdminLayananComponent } from './components/admin-layanan/admin-layanan.
 
 const routes: Routes = [
     {
-        path: 'admin',
+        path: '',
         component: AdminComponent,
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },

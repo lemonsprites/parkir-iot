@@ -113,9 +113,9 @@
                                 </ng-container>
                                 <ng-template #monitorKosong>
                                     <div class="parking-spot" *ngFor="let data of area"
-                                         [class.empty]="data.status === 'empty'"
-                                         [class.booking]="data.status === 'booking'"
-                                         [class.fill]="data.status === 'fill'">
+                                         [class.empty]="data.status === 'Empty'"
+                                         [class.booking]="data.status === 'Booked'"
+                                         [class.fill]="data.status === 'Fill'">
                                         {{ data.nama }}
                                     </div>
                                 </ng-template>

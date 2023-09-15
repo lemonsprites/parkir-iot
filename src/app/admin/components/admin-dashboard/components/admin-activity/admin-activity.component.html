@@ -8,7 +8,8 @@
             <div class="activite-label">{{ getActivityTime(activity.timestamp) }}</div>
             <i class="bi activity-badge align-self-start" [ngClass]="getActivityBadgeClass(activity.status)" ></i>
             <div class="activity-content">
-                {{ getActivityStatusText(activity.status) }}
+
+                {{ activity.user_name + ' ' + getActivityStatusText(activity.status) }}
                 <a href="#" class="fw-bold text-dark">Booking ID: {{ activity.booking_id }}</a>
             </div>
         </div>

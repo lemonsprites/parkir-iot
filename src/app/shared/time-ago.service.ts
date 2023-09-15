@@ -20,7 +20,7 @@ export class TimeAgo {
             return `${days} ${days === 1 ? 'Hari' : 'Hari'} <br> yang lalu.`;
         } else {
             const date = new Date(timestamp);
-            console.log(timestamp,date)
+            console.log(timestamp, date)
             return date.toDateString();
         }
     }
@@ -40,8 +40,11 @@ export class TimeAgo {
             return `${days} ${days === 1 ? 'Hari' : 'Hari'}`;
         } else {
             const date = new Date(timestamp);
-            console.log(timestamp,date)
-            return date.toDateString();
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+
+            return `${day}-${month}-${year}`;
         }
     }
 }

@@ -1,7 +1,7 @@
 import { IUser } from '@App/shared/models/auth.model';
 import { Injectable, inject } from '@angular/core';
 import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, authState, updateProfile, getAuth, User } from '@angular/fire/auth';
-import { Database, objectVal, ref, set } from '@angular/fire/database';
+import { Database, child, get, objectVal, ref, set } from '@angular/fire/database';
 import { Storage, ref as data, getDownloadURL } from '@angular/fire/storage';
 import { Observable, from } from 'rxjs';
 
@@ -12,8 +12,14 @@ export class AuthService {
 
         authState(this.auth).subscribe((user) => {
             if (user) {
-                this.userData = user;
-                localStorage.setItem('user', JSON.stringify(this.userData));
+                get(child(ref(this.db), `users/${user.uid}`)).then((snap) => {
+                    console.log(snap)
+                    this.userData = {
+                        ...user,
+                        role: snap.val().role
+                    }
+                    localStorage.setItem('user', JSON.stringify(this.userData));
+                })
                 JSON.parse(localStorage.getItem('user')!);
             } else {
                 localStorage.setItem('user', 'null');
@@ -58,7 +64,7 @@ export class AuthService {
     }
 
     addUser(payload: IUser) {
-        set(ref(this.db, `users/${payload.uid}`), payload)
+        set(ref(this.db, `users/${payload.uid}`), { ...payload, role: 'user' })
     }
 
     getCurrentUser(): string {
@@ -73,5 +79,11 @@ export class AuthService {
     get isLoggedIn(): boolean {
         const user = JSON.parse(localStorage.getItem('user')!);
         return user !== null ? true : false;
+    }
+
+    get getUserRole(): string {
+        let data = JSON.parse(localStorage.getItem('user'));
+
+        return data.role
     }
 }

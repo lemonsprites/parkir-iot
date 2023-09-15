@@ -21,7 +21,7 @@ export class AdminActivityComponent implements OnInit {
     }
 
     getActivityTime(timestamp: string): string {
-        return this.time.timeAgo(new Date(parseInt(timestamp)).getTime())
+        return this.time.timeAgoShort(parseInt(timestamp))
     }
 
     getActivityBadgeClass(status: string): string {
