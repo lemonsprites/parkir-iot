@@ -1,5 +1,5 @@
 import { MessageService } from '@App/shared/services/message.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewChecked, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-convo-list',
@@ -9,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class ConvoListComponent implements OnInit {
     conversations: any[] = [];
     selectedConversationId: string | null = null;
+
+    @ViewChild('chatHistory') private chatHistoryRef: ElementRef;
 
     ngOnInit(): void {
         this.loadConversations()
@@ -25,7 +27,17 @@ export class ConvoListComponent implements OnInit {
     }
 
     constructor(
-        private messageService: MessageService
+        private messageService: MessageService,
     ) { }
+
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    const chatHistoryElement = this.chatHistoryRef.nativeElement;
+    chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+  }
 
 }

@@ -26,6 +26,7 @@ import { UserModule } from './user/user.module';
 import { DataTablesModule } from 'angular-datatables';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FeedbackModule } from '@App/feedback/feedback.module';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent, TestComponent, ToastComponent],
@@ -73,11 +74,12 @@ import { FeedbackModule } from '@App/feedback/feedback.module';
         AuthModule,
         AdminModule,
         UserModule,
-        FeedbackModule
+        FeedbackModule,
+        NgApexchartsModule
 
     ],
     providers: [TimeAgo],
-    exports: [FormsModule, ReactiveFormsModule, NotFoundComponent, DataTablesModule, ClipboardModule],
+    exports: [FormsModule, ReactiveFormsModule, NotFoundComponent, DataTablesModule, ClipboardModule, NgApexchartsModule],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

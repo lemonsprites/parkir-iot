@@ -1,7 +1,7 @@
 import { AreaAddComponent } from '@App/shared/components/area-add/area-add.component';
 import { DetailBookingComponent } from '@App/user/components/user-dasboard/components/detail-booking/detail-booking.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
@@ -15,9 +15,12 @@ import { UserDasboardComponent } from './components/user-dasboard/user-dasboard.
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
 import { ActivityBookingComponent } from './components/user-dasboard/components/activity-booking/activity-booking.component';
+import { UserAkunComponent } from '@App/user/components/user-akun/user-akun.component';
+import { FeedbackModule } from '@App/feedback/feedback.module';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
-    declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent, DetailBookingComponent, EnterOtpComponent, ListBookingComponent, ActivityBookingComponent],
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent, DataTablesModule, ClipboardModule]
+    declarations: [UserComponent, UserDasboardComponent, UserHeaderComponent, InfoDukunganComponent, UserSidebarComponent, AddBookingComponent, DetailBookingComponent, EnterOtpComponent, ListBookingComponent, ActivityBookingComponent, UserAkunComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, UserRoutes, ReactiveFormsModule, AreaAddComponent, DataTablesModule, ClipboardModule, FeedbackModule, NgApexchartsModule]
 })
 export class UserModule { }

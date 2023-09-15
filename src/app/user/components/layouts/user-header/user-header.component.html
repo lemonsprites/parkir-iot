@@ -161,7 +161,7 @@
 
                     </div>
                     <ng-container *ngIf="userData.photoURL !== ''; else kosong">
-                        <img src="{{userData.photoURL}}" alt="Profile" class="rounded-circle">
+                        <img src="{{ userData.photoURL == undefined ? 'http://127.0.0.1:9199/v0/b/finalprojectparking.appspot.com/o/assets%2Fboba-dino.jpg?alt=media&token=09ec532c-0ced-4d0a-abe9-67a2edfde3a5' : userData.photoURL }}" alt="Profile" class="rounded-circle">
                     </ng-container>
                     <ng-template #kosong>
                         <img src="assets/img/default-avatar.jpg" alt="Profile" class="rounded-circle">
@@ -179,7 +179,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                        <a class="dropdown-item d-flex align-items-center" routerLink="akun">
                             <i class="bi bi-person"></i>
                             <span>Profil</span>
                         </a>
