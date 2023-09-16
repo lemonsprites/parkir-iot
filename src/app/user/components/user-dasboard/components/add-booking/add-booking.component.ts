@@ -94,13 +94,21 @@ export class AddBookingComponent implements OnDestroy {
         }
 
         // Update data slot yang dipilih buat booking
-        updates['/Ultrasonic/' + this.areaTerpilih] = {
-            nama: this.area.key,
-            status: 'Booked',
-            update: new Date().getTime(),
-            [this.otpVar]: this.otpString,
-            [this.bookedVar]: 1
-        };
+
+        updates['/Ultrasonic/' + this.areaTerpilih + '/nama'] = this.area.key
+        updates['/Ultrasonic/' + this.areaTerpilih + '/status'] = 'Booked'
+        updates['/Ultrasonic/' + this.areaTerpilih + '/update'] = new Date().getTime()
+        updates['/Ultrasonic/' + this.areaTerpilih + '/' + this.otpVar] = this.otpString
+        updates['/Ultrasonic/' + this.areaTerpilih + '/' + this.bookedVar] = 1
+
+
+        // updates['/Ultrasonic/' + this.areaTerpilih] = {
+        //     nama: this.area.key,
+        //     status: 'Booked',
+        //     update: new Date().getTime(),
+        //     [this.otpVar]: this.otpString,
+        //     [this.bookedVar]: 1
+        // };
 
         // Commit ke database
         update(ref(this.db), updates)

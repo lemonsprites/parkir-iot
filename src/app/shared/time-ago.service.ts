@@ -47,4 +47,31 @@ export class TimeAgo {
             return `${day}-${month}-${year}`;
         }
     }
+
+    timeAgoRefresh(timestamp: number, interval: number): string {
+        let stringReturn: string;
+        setInterval(() :any => {
+            let timeDifference = this.currentTime - timestamp;
+            if (timeDifference < 60000) {
+                stringReturn = 'Baru saja';
+            } else if (timeDifference < 3600000) {
+                const minutes = Math.floor(timeDifference / 60000);
+                stringReturn = `${minutes} ${minutes === 1 ? 'Min' : 'Min'}`;
+            } else if (timeDifference < 86400000) {
+                const hours = Math.floor(timeDifference / 3600000);
+                stringReturn = `${hours} ${hours === 1 ? 'Jam' : 'Jam'}`;
+            } else if (timeDifference < 604800000) {
+                const days = Math.floor(timeDifference / 86400000);
+                stringReturn = `${days} ${days === 1 ? 'Hari' : 'Hari'}`;
+            } else {
+                const date = new Date(timestamp);
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+
+                stringReturn = `${day}-${month}-${year}`;
+            }
+        }, interval)
+        return stringReturn
+    }
 }

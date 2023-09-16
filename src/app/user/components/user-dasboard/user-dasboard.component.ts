@@ -10,7 +10,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Database, onValue, ref } from '@angular/fire/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'user-dasboard',
@@ -32,7 +32,7 @@ export class UserDasboardComponent implements OnInit, OnDestroy {
     jmlTrans: number;
 
     area: IArea[];
-    activity: any[];
+    activity: Observable<any>;
 
     bookingPopup() {
         if (this.jmlAreaLastBooked !== 0) {
@@ -72,9 +72,11 @@ export class UserDasboardComponent implements OnInit, OnDestroy {
         })
         this.trans$.pipe(takeUntil(this.destroyed)).subscribe(e => this.jmlTrans = e.length)
 
-        this.activity$.pipe(takeUntil(this.destroyed)).subscribe(e => {
-            this.activity = e.flat().sort((a: any, b: any) => b.timestamp - a.timestamp)
-        })
+        this.activity = this.activity$.pipe(map(
+            (data) => {
+                data.sort((a: any, b: any) => b.timestamp - a.timestamp);
+                return data;
+            }), takeUntil(this.destroyed))
     }
 
     ngOnDestroy(): void {

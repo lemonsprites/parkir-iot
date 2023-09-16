@@ -76,7 +76,7 @@ export class EnterOtpComponent implements OnInit {
                                 // Compare OTP values
                                 if (slotOTP === otpInput) {
                                     // Your logic here when OTPs match
-                                    update(child(ref(this.db, 'bookings'), areaKey), { status: 'idle', timestamp: new Date().getTime(), start_time: new Date().getTime() });
+                                    update(child(ref(this.db, 'bookings'), areaKey), { [this.bookedVar]: 0, status: 'idle', timestamp: new Date().getTime(), start_time: new Date().getTime() });
 
                                     setTimeout(() => {
                                         update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Database, equalTo, limitToLast, listVal, orderByChild, push, query, ref, set } from '@angular/fire/database';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -7,11 +8,12 @@ import { Database, equalTo, limitToLast, listVal, orderByChild, push, query, ref
 export class ActivityService {
 
     query = ref(this.db, 'activity')
+    private activity = new Subject<any>();
 
     constructor(private db: Database) { }
 
     getAllActivitiesAllUser() {
-        return listVal(this.query, { keyField: 'key' }).pipe(res => {
+        return listVal(query(ref(this.db, 'activity'), limitToLast(6)), { keyField: 'key' }).pipe(res => {
             return res
         });
     }
@@ -21,7 +23,7 @@ export class ActivityService {
         return listVal(fnQuery, { keyField: 'key' })
     }
 
-    addActivity(metadata: {area_id, booking_id, status, user_id, user_name}) {
+    addActivity(metadata: { area_id, booking_id, status, user_id, user_name }) {
 
         const generatedActivityID = push(ref(this.db, 'activity'))
 

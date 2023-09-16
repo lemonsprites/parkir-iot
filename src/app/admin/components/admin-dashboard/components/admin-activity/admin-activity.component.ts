@@ -1,6 +1,7 @@
 import { ActivityService } from '@App/shared/services/activity.service';
 import { Component, OnInit } from '@angular/core';
 import { TimeAgo } from './../../../../../shared/time-ago.service';
+import { map, Observable } from 'rxjs';
 
 @Component({
     selector: 'admin-activity',
@@ -9,24 +10,27 @@ import { TimeAgo } from './../../../../../shared/time-ago.service';
 })
 export class AdminActivityComponent implements OnInit {
     // activities$: Observable<any[]>;
-    activities: any[] = [];
+    activities$: Observable<any>;
 
-    constructor(private activityService: ActivityService, private time: TimeAgo) { }
+    constructor(private activityService: ActivityService, private time: TimeAgo) {
+        this.activities$ = this.activityService.getAllActivitiesAllUser().pipe(
+            map(
+                (data) => {
+                    data.sort((a: any, b: any) => b.timestamp - a.timestamp);
+                    return data;
+                })
+        )
+    }
 
     ngOnInit() {
-        this.activityService.getAllActivitiesAllUser().subscribe(activities => {
-            console.log(activities)
-            this.activities = activities;
-        });
+
     }
 
     getActivityTime(timestamp: string): string {
+
         return this.time.timeAgoShort(parseInt(timestamp))
     }
 
-    getActivityBadgeClass(status: string): string {
-        return status === 'booked' ? 'bi-circle-fill text-primary' : 'bi-circle-fill text-danger';
-    }
 
     getActivityStatusText(status: string): string {
         return status === 'booked' ? 'booked a parking space.' : 'cancelled a booking.';

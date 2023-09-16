@@ -2,7 +2,7 @@ import { ActivityService } from '@App/shared/services/activity.service';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth, getAuth } from '@angular/fire/auth';
-import { Database, get, objectVal, ref, update } from '@angular/fire/database';
+import { Database, get, objectVal, ref, set, update } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -72,6 +72,7 @@ export class DetailBookingComponent implements OnInit {
 
             if (confirmed) {
                 update(ref(this.db, `Ultrasonic/${areaData.area_id}`), {
+                    [this.bookedVar]: 0,
                     [this.otpVar]: "",
                     status: "Empty",
                     update: new Date().getTime(),
@@ -92,6 +93,74 @@ export class DetailBookingComponent implements OnInit {
 
 
                 this.toast.showToast('Informasi', `Reservasi dengan kode area #${areaData.area_id} dibatalkan`)
+                this.modal.close()
+
+            } else {
+                this.modal.close()
+            }
+        })
+    }
+
+    endVar: string = '';
+    finishBooking(id: string) {
+        get(ref(this.db, 'bookings/' + id)).then((snap) => {
+            const areaKey = snap.key;
+            const areaData = snap.val();
+
+            console.log(areaData);
+
+            switch (areaData.area_id) {
+                case 'Slot_A1':
+                    this.bookedVar = 'booked_1';
+                    this.endVar = 'end_1';
+                    break;
+                case 'Slot_A2':
+                    this.bookedVar = 'booked_2';
+                    this.endVar = 'end_2';
+                    break;
+
+                default:
+                    this.bookedVar = 'booked_1';
+                    this.endVar = 'end_1';
+                    break;
+            }
+
+            const confirmed = window.confirm('Apakah anda yakin akan menyelesaikan parkir?');
+
+            if (confirmed) {
+                update(ref(this.db, `Ultrasonic/${areaData.area_id}`), {
+                    [this.bookedVar]: 0,
+                    [this.endVar]: 1,
+                    status: "Empty",
+                    update: new Date().getTime(),
+                })
+                update(ref(this.db, `bookings/${id}`), {
+                    status: "finished",
+                    end_time: new Date().getTime(),
+                    timestamp: new Date().getTime(),
+                })
+
+                // Add Activity Booked ke metadata User
+                this.activity.addActivity({
+                    area_id: areaData.nama,
+                    booking_id: areaData.area_id,
+                    status: 'finished',
+                    user_id: areaData.user_id,
+                    user_name: JSON.parse(localStorage.getItem('user')).displayName,
+                })
+
+                set(ref(this.db, 'Exit_Gates'), { Ir_Exit: 0 })
+                setTimeout(() => {
+                    update(ref(this.db, `Ultrasonic/${areaData.area_id}`), {
+                        [this.bookedVar]: 0,
+                        [this.endVar]: 0
+                    })
+                    set(ref(this.db, 'Exit_Gates'), { Ir_Exit: 1 })
+
+                }, 5000)
+
+
+                this.toast.showToast('Informasi', `Anda berhasil menyelesaikan parkir di #${areaData.area_id}`)
                 this.modal.close()
 
             } else {

@@ -18,25 +18,33 @@
 
         <div class="activity">
             <!-- Recent Activity Feed 10 activity -->
-            <div class="activity-item d-flex" *ngFor='let e of activityData'>
-                <div class="activite-label">{{ tiago.timeAgoShort(e.timestamp)}}</div>
-                <i class="bi bi-circle-fill activity-badge align-self-start"
-                   [class.text-primary]="e.status === 'booked'"
-                   [class.text-danger]="e.status === 'cancelled'"
-                   [class.text-warning]="e.status === 'entering' || e.status === 'exiting'"></i>
-                <div class="activity-content"
-                     *ngIf='e.status !== "entering" && e.status !== "cancelled";else Entering '>
-                    {{ e.area_id }} <a href="javascript:void(0)" class="fw-bold text-dark">{{ e.status }}</a> by {{
-                    isUser(e.user_name) ? 'You' : e.user_name }}
-                </div>
 
-                <ng-template #Entering>
-                    <div class='activity-content'>
-                        {{ isUser(e.user_name) ? 'You ' : e.user_name }} <a href="javascript:void(0)"
-                           class="fw-bold text-dark">{{ e.status }}</a> {{ e.area_id }}
+            <ng-container *ngIf='activityData'>
+
+                <div class="activity-item d-flex" *ngFor='let e of activityData | async'>
+                    <div class="activite-label">{{ tiago.timeAgoShort(e.timestamp)}}</div>
+                    <i class="bi bi-circle-fill activity-badge align-self-start"
+                       [class.text-primary]="e.status === 'booked'"
+                       [class.text-danger]="e.status === 'cancelled'"
+                       [class.text-warning]="e.status === 'entering' || e.status === 'exiting'"></i>
+                    <div class="activity-content"
+                         *ngIf='e.status !== "entering" && e.status !== "cancelled";else Entering '>
+                        {{ e.area_id }} <a href="javascript:void(0)" class="fw-bold text-dark">{{ e.status }}</a> by {{
+                        isUser(e.user_name) ? 'You' : e.user_name }}
                     </div>
-                </ng-template>
-            </div><!-- End activity item-->
+
+                    <ng-template #Entering>
+                        <div class='activity-content'>
+                            {{ isUser(e.user_name) ? 'You ' : e.user_name }} <a href="javascript:void(0)"
+                               class="fw-bold text-dark">{{ e.status }}</a> {{ e.area_id }}
+                        </div>
+                    </ng-template>
+                </div><!-- End activity item-->
+            </ng-container>
+
+            <ng-container *ngIf='!activityData'>
+                <span class=''>Data Akitivitas Kosong</span>
+            </ng-container>
 
 
         </div>

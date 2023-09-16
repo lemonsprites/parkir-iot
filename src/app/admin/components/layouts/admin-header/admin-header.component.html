@@ -21,18 +21,18 @@
 
                     </div>
                     <ng-container> <!-- *ngIf="currentUser.photoURL !== ''; else kosong" -->
-                        <img src="assets/img/default-avatar.jpg" alt="Profile" class="rounded-circle">
+                        <img src="{{ userData.photoURL }}" alt="Profile" class="rounded-circle">
                     </ng-container>
                     <ng-template #kosong>
-                        <img src="" alt="Profile" class="rounded-circle">
+                        <img src="assets/img/default-avatar.jpg" alt="Profile" class="rounded-circle">
                     </ng-template>
 
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Noor Alfath</h6>
-                        <span>Web Developer</span>
+                        <h6>{{ userData.displayName }}</h6>
+                        <span>{{ userData.email }}</span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">

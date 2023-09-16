@@ -118,11 +118,6 @@ export class ListBookingComponent implements OnInit, AfterViewInit, OnDestroy {
                 className: 'text-center'
             },
             {
-                title: 'Updated At', data: 'timestamp',
-                ngPipeInstance: this.datePipe,
-                ngPipeArgs: ['MMM dd, yyyy HH:mm:ss']
-            },
-            {
                 title: 'Status',
                 render: (data: any, type: any, full: any) => {
                     const now = new Date();
@@ -140,7 +135,7 @@ export class ListBookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
                         if (now >= startDate && now <= endDate) {
                             return '<span class="badge bg-primary border-none">ongoing</span>';
-                        } else if (now > endDate) {
+                        } else if (now > endDate || full.status == 'finished') {
                             return '<span class="badge bg-success border-none">finished</span>';
                         } else {
                             return '<span class="badge bg-warning border-none">idle</span>';

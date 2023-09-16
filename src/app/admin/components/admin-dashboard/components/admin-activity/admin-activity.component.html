@@ -4,14 +4,28 @@
     <div class="activity">
         <!-- Recent Activity Feed 10 activity -->
         <!-- {{ activities | json }} -->
-        <div *ngFor="let activity of activities" class="activity-item d-flex">
+        <div *ngFor="let activity of activities$ | async" class="activity-item d-flex">
             <div class="activite-label">{{ getActivityTime(activity.timestamp) }}</div>
-            <i class="bi activity-badge align-self-start" [ngClass]="getActivityBadgeClass(activity.status)" ></i>
+            <i class="bi bi-circle-fill activity-badge align-self-start"
+               [class.text-primary]="activity.status === 'booked'"
+               [class.text-danger]="activity.status === 'cancelled'"
+               [class.text-warning]="activity.status === 'entering' || activity.status === 'exiting'"></i>
             <div class="activity-content">
 
-                {{ activity.user_name + ' ' + getActivityStatusText(activity.status) }}
-                <a href="#" class="fw-bold text-dark">Booking ID: {{ activity.booking_id }}</a>
+                <a href="#" class="fw-bold text-dark">{{activity.user_name}}</a>
+                <div class="activity-content"
+                     *ngIf='activity.status !== "entering" && activity.status !== "cancelled";else Entering '>
+                     {{ activity.status }} {{ activity.area_id }}
+                    <a href="#" class="fw-bold text-dark">Booking ID: {{ activity.booking_id }}</a>
+                </div>
+
             </div>
+            <ng-template #Entering>
+                <div class='activity-content'>
+                    {{ activity.status }} {{ activity.area_id }}
+                    <a href="#" class="fw-bold text-dark">Booking ID: {{ activity.booking_id }}</a>
+                </div>
+            </ng-template>
         </div>
 
     </div>
