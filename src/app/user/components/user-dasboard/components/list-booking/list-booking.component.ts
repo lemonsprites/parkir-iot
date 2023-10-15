@@ -4,8 +4,8 @@ import { BookingService } from '@App/shared/services/booking.service';
 import { EnterOtpComponent } from '@App/user/components/user-dasboard/components/enter-otp/enter-otp.component';
 import { DetailBookingComponent } from '@App/user/components/user-dasboard/components/detail-booking/detail-booking.component';
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
-import { Database, equalTo, listVal, orderByChild, query, ref } from '@angular/fire/database';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Database, equalTo, limitToLast, listVal, orderByChild, query, ref } from '@angular/fire/database';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject, takeUntil } from 'rxjs';
@@ -30,12 +30,13 @@ export class ListBookingComponent implements OnInit, AfterViewInit, OnDestroy {
     dtOptions: any = {
         pagingType: 'full_numbers',
         serverSide: true,
+        paging: false,
         autoWidth: false,
         ordering: false,
         search: false,
         searching: false,
         ajax: (dataTablesParameters: any, callback) => {
-            const queryData = query(ref(this.db, 'bookings'), orderByChild('user_id'), equalTo(this.userDATA.uid));
+            const queryData = query(ref(this.db, 'bookings'), limitToLast(10),orderByChild('user_id'), equalTo(this.userDATA.uid));
 
             listVal<BookingModel>(queryData, { keyField: 'key' }).pipe(takeUntil(this.destroyed)).subscribe(x => {
                 this.bookingList = x.sort((a, b) => b.timestamp - a.timestamp)
@@ -170,7 +171,7 @@ export class ListBookingComponent implements OnInit, AfterViewInit, OnDestroy {
         private modalService: NgbModal,
         private bookingService: BookingService,
         private datePipe: DatePipe,
-        private auth: AuthService
+        private auth: AuthService,
     ) {
         this.bookingService.update$.subscribe(() => {
             this.refreshData();
@@ -210,7 +211,8 @@ export class ListBookingComponent implements OnInit, AfterViewInit, OnDestroy {
             booking.timeElapsed = `${Math.floor(elapsedSeconds / 60)}:${elapsedSeconds % 60}`;
         });
 
-        // Trigger DataTable update
+
+
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.draw();
         });

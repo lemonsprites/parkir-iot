@@ -32,12 +32,7 @@
                     <div class="col-xxl col-md-6">
                         <div class="card info-card sales-card">
 
-                            <div class="filter">
-                                <a class="icon" href="javascript:void(0)"><i class="bi bi-plus-circle"
-                                       (click)="bookingPopup()"
-                                       style="font-size: 1.25rem;"></i>
-                                </a>
-                            </div>
+
 
                             <div class="card-body">
                                 <h5 class="card-title">Lahan Tersedia</h5>
@@ -95,15 +90,24 @@
                                         <div class="parking-spot" *ngFor="let data of area"
                                              [class.empty]="data.status === 'Empty'"
                                              [class.booked]="data.status === 'Booked'"
-                                             [class.fill]="data.status === 'Fill'">
+                                             [class.fill]="data.status === 'Filled'">
                                             {{ data.key }}
                                         </div>
                                     </ng-template>
+
+
                                 </div>
 
 
                             </div>
+                            <div class='card-footer d-flex'>
+                                <div class='btn btn-secondary w-100'>
+                                    <a class="" href="javascript:void(0)" (click)="bookingPopup()">
+                                        <p class='m-0' style='color: white'>Tambah Booking</p>
 
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -1,7 +1,7 @@
 import { ActivityService } from '@App/shared/services/activity.service';
 import { ToastService } from '@App/toast/toast.service';
 import { Component, OnInit } from '@angular/core';
-import { Database, child, equalTo, get, orderByChild, push, query, ref, set, update } from '@angular/fire/database';
+import { Database, child, equalTo, get, onValue, orderByChild, push, query, ref, set, update } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -80,17 +80,28 @@ export class EnterOtpComponent implements OnInit {
 
                                     setTimeout(() => {
                                         update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
-                                            status: "Fill",
-                                            [this.otpVar]: "",
+
                                             update: new Date().getTime()
                                         });
                                     }, 10000);
 
 
-                                    set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
-                                    setTimeout(() => {
-                                        set(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
-                                    }, 5000)
+                                    update(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
+
+                                    onValue(ref(this.db, 'Entering_Gates/Ir_Realtime'), (snap) => {
+                                        if (snap.val() == 1) {
+                                            setTimeout(() => {
+                                                update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
+                                                    [this.otpVar]: "",
+                                                })
+                                                update(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
+                                            }, 2000)
+
+                                        }
+                                    })
+
+                                    update(ref(this.db), { entered_otp: "" });
+
 
 
                                     // Add Activity
@@ -101,8 +112,6 @@ export class EnterOtpComponent implements OnInit {
                                         user_id: user.uid,
                                         user_name: JSON.parse(localStorage.getItem('user')).displayName
                                     })
-
-
 
 
                                 } else {

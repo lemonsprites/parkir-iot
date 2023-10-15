@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-start">
-        <button class="btn btn-danger w-100" (click)="cancelBooking(bookingData?.key)" *ngIf="bookingData?.status !== 'cancelled' && bookingData?.status !== 'idle' || bookingData?.status == 'finsihed'">Batal Reservasi</button>
+        <button class="btn btn-danger w-100" (click)="cancelBooking(bookingData?.key)" *ngIf="bookingData?.status == 'booked' && bookingData?.status !== 'idle' && bookingData?.status !== 'finsihed'">Batal Reservasi</button>
         <button class="btn btn-primary w-100" (click)="finishBooking(bookingData?.key)" *ngIf="bookingData?.status == 'idle' && bookingData?.status !== 'cancelled'">Selesai Parkir</button>
         <button class="btn btn-dark w-100" (click)="copyToClipboard(bookingData?.otpKey)">Copy to Clipboard</button>
     </div>
