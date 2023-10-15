@@ -2,7 +2,7 @@ import { ActivityService } from '@App/shared/services/activity.service';
 import { BookingModel } from '@App/shared/models/booking.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth, getAuth } from '@angular/fire/auth';
-import { Database, get, objectVal, ref, set, update } from '@angular/fire/database';
+import { Database, get, objectVal, onValue, ref, set, update } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -149,15 +149,22 @@ export class DetailBookingComponent implements OnInit {
                     user_name: JSON.parse(localStorage.getItem('user')).displayName,
                 })
 
-                set(ref(this.db, 'Exit_Gates'), { Ir_Exit: 0 })
-                setTimeout(() => {
-                    update(ref(this.db, `Ultrasonic/${areaData.area_id}`), {
-                        [this.bookedVar]: 0,
-                        [this.endVar]: 0
-                    })
-                    set(ref(this.db, 'Exit_Gates'), { Ir_Exit: 1 })
+                onValue(ref(this.db, 'Entering_Gates/Ir_Exit'), (snap) => {
+                    if (snap.val() > 1000) {
+                        update(ref(this.db, `Ultrasonic/${areaData.area_id}`), {
+                            [this.bookedVar]: 0,
+                            [this.endVar]: 0
+                        })
+                        // set(ref(this.db, 'Exit_Gates'), { Ir_Exit: 1 })
 
-                }, 5000)
+                    }
+                });
+
+                // set(ref(this.db, 'Exit_Gates'), { Ir_Exit: 0 })
+                // setTimeout(() => {
+
+
+                // }, 5000)
 
 
                 this.toast.showToast('Informasi', `Anda berhasil menyelesaikan parkir di #${areaData.area_id}`)

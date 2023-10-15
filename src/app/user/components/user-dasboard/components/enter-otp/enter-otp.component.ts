@@ -76,7 +76,7 @@ export class EnterOtpComponent implements OnInit {
                                 // Compare OTP values
                                 if (slotOTP === otpInput) {
                                     // Your logic here when OTPs match
-                                    update(child(ref(this.db, 'bookings'), areaKey), { [this.bookedVar]: 0, status: 'idle', timestamp: new Date().getTime(), start_time: new Date().getTime() });
+                                    update(child(ref(this.db, 'bookings'), areaKey), { [this.bookedVar]: 1, status: 'idle', timestamp: new Date().getTime(), start_time: new Date().getTime() });
 
                                     setTimeout(() => {
                                         update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
@@ -86,23 +86,25 @@ export class EnterOtpComponent implements OnInit {
                                     }, 10000);
 
 
-                                    update(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
+                                    // update(ref(this.db, 'Entering_Gates'), { Ir_Enter: 0 })
 
-                                    onValue(ref(this.db, 'Entering_Gates/Ir_Realtime'), (snap) => {
+                                    onValue(ref(this.db, 'Entering_Gates/Ir_Enter'), (snap) => {
                                         if (snap.val() == 1) {
                                             setTimeout(() => {
                                                 update(child(ref(this.db, 'Ultrasonic'), areaData.area_id), {
                                                     [this.otpVar]: "",
                                                 })
-                                                update(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
+                                                // update(ref(this.db, 'Entering_Gates'), { Ir_Enter: 1 })
                                             }, 2000)
+
+                                            setTimeout(() => {
+                                                update(ref(this.db), { entered_otp: "" });
+                                            }, 5000)
+
+
 
                                         }
                                     })
-
-                                    update(ref(this.db), { entered_otp: "" });
-
-
 
                                     // Add Activity
                                     this.activity.addActivity({
@@ -112,6 +114,7 @@ export class EnterOtpComponent implements OnInit {
                                         user_id: user.uid,
                                         user_name: JSON.parse(localStorage.getItem('user')).displayName
                                     })
+
 
 
                                 } else {
